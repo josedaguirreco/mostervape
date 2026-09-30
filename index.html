@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Mostervape · Santa Marta</title>
+  <meta name="description" content="Catálogo de Mostervape en Santa Marta: dispositivos, pods y sabores para adultos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Michroma&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #8f9c98;
+      --panel: #0c2224;
+      --panel-deep: #071012;
+      --ink: #ffffff;
+      --muted: #dce8e3;
+      --faint: rgba(255,255,255,.18);
+      --glass: rgba(7,20,21,.72);
+      --glass-strong: rgba(10,31,29,.88);
+      --accent: #9dff2a;
+      --orange: #ff9b42;
+      --focus: #d7ff9e;
+      --danger: #ff7a70;
+      --shadow: 0 34px 90px rgba(8,20,22,.4);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #071012;
+        --panel: #071819;
+        --panel-deep: #050b0d;
+        --ink: #ffffff;
+        --muted: #dce8e3;
+        --faint: rgba(255,255,255,.16);
+        --glass: rgba(5,16,17,.76);
+        --glass-strong: rgba(8,28,26,.9);
+        --accent: #a7ff32;
+        --orange: #ff9b42;
+        --focus: #d7ff9e;
+        --danger: #ff8a82;
+        --shadow: 0 34px 90px rgba(0,0,0,.56);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 16% 82%, rgba(151,255,55,.22), transparent 32%),
+        radial-gradient(circle at 72% 16%, rgba(255,157,66,.2), transparent 29%),
+        linear-gradient(135deg, #171f22 0%, var(--page) 52%, #102c2a 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(255,255,255,.08), transparent 42%);
+      mix-blend-mode: screen;
+    }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    button, a { font: inherit; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    .stage { width: 100%; min-height: 100vh; min-height: 100svh; }
+    .experience {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
+      isolation: isolate;
+      overflow: hidden;
+      background: var(--panel-deep);
+    }
+    .background-video {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      max-width: none;
+      object-fit: cover;
+      object-position: center center;
+      background: #071012;
+      filter: saturate(1.08) contrast(1.05);
+    }
+    .experience::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(8,13,15,.98) 0%, rgba(9,18,20,.87) 30%, rgba(8,22,22,.34) 66%, rgba(5,23,22,.16) 100%),
+        linear-gradient(0deg, rgba(6,15,17,.94) 0%, rgba(6,15,17,.12) 47%);
+    }
+    .video-toggle {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 8;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 50%;
+      color: #fff;
+      background: rgba(5,15,17,.78);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: background-color .22s ease, border-color .22s ease;
+    }
+    .video-toggle:hover { background: rgba(10,34,31,.96); border-color: rgba(167,255,50,.58); }
+    .video-toggle svg { width: 18px; height: 18px; }
+    .video-toggle .play-icon { display: none; }
+    .video-toggle.paused .play-icon { display: block; }
+    .video-toggle.paused .pause-icon { display: none; }
+
+    .topbar {
+      width: min(1280px, calc(100% - 110px));
+      margin: 30px auto 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 22px;
+      position: relative;
+      z-index: 7;
+    }
+    .nav-pills, .account { display: flex; align-items: center; }
+    .nav-pills { grid-column: 2; justify-self: center; background: rgba(255,255,255,.13); border-radius: 999px; padding: 2px; backdrop-filter: blur(12px); }
+    .account { grid-column: 3; justify-self: end; background: rgba(255,255,255,.12); border-radius: 999px; backdrop-filter: blur(12px); }
+    .nav-pills a, .account a {
+      min-height: 44px;
+      padding: 0 24px;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 999px;
+      transition: background-color .22s ease, color .22s ease;
+    }
+    .nav-pills a.active { background: #fff; color: #16151d; }
+    .nav-pills a:not(.active):hover, .account .location:hover { background: rgba(255,255,255,.12); }
+    .account .call { color: #041f28; background: var(--accent); }
+    .account .call:hover { background: #c3ff78; }
+    .menu-button { display: none; }
+
+    .hero {
+      width: min(1280px, calc(100% - 110px));
+      margin: 112px auto 0;
+      position: relative;
+      z-index: 2;
+    }
+    .intro { width: min(700px, 58%); }
+    .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+    h1 {
+      margin: 0;
+      font-family: "Michroma", sans-serif;
+      font-weight: 400;
+      font-size: clamp(58px, 7.15vw, 112px);
+      line-height: .94;
+      letter-spacing: -.065em;
+      text-transform: uppercase;
+    }
+    h1 .accent { color: var(--accent); text-shadow: 0 0 12px rgba(157,255,42,.35), 0 0 34px rgba(157,255,42,.16); }
+    .lede { width: min(520px, 100%); margin: 28px 0 0; color: var(--ink); font-size: 17px; line-height: 1.65; font-weight: 500; }
+    .hero-actions { display: flex; align-items: center; gap: 18px; margin-top: 34px; }
+    .primary-cta {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      padding: 5px 7px 5px 24px;
+      border-radius: 999px;
+      background: #fff;
+      color: #17151d;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 14px;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .primary-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,.2); }
+    .arrow-disc { width: 38px; height: 38px; display: grid; place-items: center; color: #071012; background: var(--accent); border-radius: 50%; }
+    .secondary-cta { min-height: 44px; display: inline-flex; align-items: center; border-left: 1px solid rgba(255,255,255,.48); padding-left: 22px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; }
+    .secondary-cta:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .hero-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+    .hero-facts span { padding: 9px 14px; border: 1px solid rgba(255,255,255,.15); border-radius: 999px; background: rgba(4,16,17,.5); backdrop-filter: blur(10px); color: var(--muted); font-size: 12px; font-weight: 700; }
+
+    .trust-strip {
+      width: min(1280px, calc(100% - 110px));
+      margin: 110px auto 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 3;
+    }
+    .trust-item { min-height: 124px; padding: 24px; background: var(--glass); border: 1px solid rgba(255,255,255,.11); backdrop-filter: blur(16px); }
+    .trust-item:nth-child(1) { border-radius: 28px 10px 28px 28px; }
+    .trust-item:nth-child(2) { border-radius: 10px 28px; }
+    .trust-item:nth-child(3) { border-radius: 28px 28px 28px 10px; }
+    .trust-icon { width: 36px; height: 36px; color: var(--accent); margin-bottom: 18px; }
+    .trust-item strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .trust-item span { color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+    .section { width: min(1180px, calc(100% - 110px)); margin: 0 auto; padding: 112px 0; position: relative; z-index: 2; }
+    .section-heading { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: end; margin-bottom: 46px; }
+    .section-heading h2 { margin: 0; font-family: "Michroma", sans-serif; font-size: clamp(34px, 4.5vw, 64px); line-height: 1.02; letter-spacing: -.05em; font-weight: 400; }
+    .section-heading p { margin: 0; max-width: 600px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .snapshot { display: block; margin-top: 10px; color: rgba(220,232,227,.72); font-size: 12px; }
+
+    .catalog-tools { margin-bottom: 46px; padding: 22px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; background: rgba(7,22,22,.78); border: 1px solid rgba(255,255,255,.12); border-radius: 26px 8px 26px 26px; backdrop-filter: blur(16px); }
+    .catalog-tools p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+    .category-nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    .category-nav a { min-height: 36px; padding: 0 13px; display: inline-flex; align-items: center; color: var(--ink); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; text-decoration: none; font-size: 11px; font-weight: 800; }
+    .category-nav a:hover { color: #071012; border-color: var(--accent); background: var(--accent); }
+    .whatsapp-cta { min-height: 48px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; color: #071012; background: var(--accent); border-radius: 999px; text-decoration: none; font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .whatsapp-cta:hover { background: #c3ff78; }
+    .catalog-group { margin-top: 64px; scroll-margin-top: 24px; }
+    .catalog-group:first-of-type { margin-top: 0; }
+    .catalog-group-heading { margin-bottom: 20px; display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
+    .catalog-group-heading h3 { margin: 0; font-family: "Michroma", sans-serif; font-size: clamp(22px, 3vw, 34px); font-weight: 400; letter-spacing: -.035em; }
+    .catalog-group-heading span { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .catalog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .product-card { position: relative; min-height: 430px; overflow: hidden; display: grid; grid-template-rows: 215px 1fr; background: rgba(6,18,19,.8); border: 1px solid rgba(255,255,255,.12); border-radius: 30px 10px 30px 30px; backdrop-filter: blur(18px); box-shadow: 0 24px 64px rgba(0,0,0,.2); }
+    .product-card:nth-child(3n+2) { border-radius: 10px 30px; }
+    .product-card:nth-child(3n) { border-radius: 30px 30px 10px 30px; }
+    .product-visual { position: relative; min-height: 215px; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 50% 45%, rgba(157,255,42,.2), rgba(5,14,16,.84) 58%, rgba(2,8,10,.98)); }
+    .product-visual::after { content: ""; position: absolute; inset: auto 10% 8% 10%; height: 20px; border-radius: 50%; background: rgba(0,0,0,.55); filter: blur(12px); }
+    .product-visual img { position: relative; z-index: 1; width: 92%; height: 92%; object-fit: contain; display: block; transition: transform .28s ease; }
+    .product-card:hover .product-visual img { transform: translateY(-4px); }
+    .discount-badge { position: absolute; top: 14px; left: 14px; z-index: 2; padding: 6px 9px; color: #071012; background: var(--accent); border-radius: 999px; font-size: 10px; font-weight: 900; }
+    .product-body { padding: 22px; display: flex; flex-direction: column; align-items: stretch; }
+    .product-meta { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .brand { color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .status { padding: 6px 9px; border-radius: 999px; font-size: 10px; font-weight: 800; }
+    .status.sold { color: #ffdfdc; background: rgba(255,122,112,.15); }
+    .status.check { color: #e9ffd1; background: rgba(157,255,42,.12); }
+    .product-body h4 { margin: 0; font-size: 20px; line-height: 1.18; }
+    .product-copy { margin: 10px 0 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .variant-note { margin: -8px 0 18px; color: var(--accent); font-size: 11px; line-height: 1.45; }
+    .price-row { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: end; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.12); }
+    .price-stack { display: grid; gap: 3px; }
+    .old-price { color: var(--muted); font-size: 11px; text-decoration: line-through; }
+    .price { font-family: "Michroma", sans-serif; font-size: 18px; color: #fff; white-space: nowrap; }
+    .product-actions { display: flex; gap: 7px; }
+    .product-link { min-width: 42px; min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 999px; color: #071012; background: var(--accent); font-size: 11px; font-weight: 800; text-decoration: none; }
+    .product-link.secondary { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.22); }
+    .product-link:hover { background: #c3ff78; color: #071012; }
+
+    .visit { width: min(1180px, calc(100% - 110px)); margin: 0 auto 70px; position: relative; z-index: 2; display: grid; grid-template-columns: 1.2fr .8fr; background: var(--glass-strong); border: 1px solid rgba(255,255,255,.13); border-radius: 38px 12px 38px 38px; overflow: hidden; backdrop-filter: blur(18px); }
+    .visit-copy { padding: clamp(34px, 6vw, 72px); }
+    .visit h2 { margin: 0 0 20px; font-family: "Michroma", sans-serif; font-size: clamp(32px, 4vw, 54px); line-height: 1.04; letter-spacing: -.04em; font-weight: 400; }
+    .visit p { margin: 0 0 8px; color: var(--muted); font-size: 16px; line-height: 1.6; }
+    .visit-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .visit-actions a { min-height: 46px; padding: 0 18px; display: inline-flex; align-items: center; gap: 9px; border-radius: 999px; text-decoration: none; font-weight: 800; font-size: 13px; }
+    .visit-actions .primary { color: #071012; background: var(--accent); }
+    .visit-actions .outline { color: #fff; border: 1px solid rgba(255,255,255,.26); }
+    .visit-stats { padding: 34px; display: grid; align-content: center; gap: 12px; background: rgba(157,255,42,.08); }
+    .visit-stat { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,.14); }
+    .visit-stat:last-child { border-bottom: 0; }
+    .visit-stat b { display: block; color: var(--accent); font-family: "Michroma", sans-serif; font-size: 20px; font-weight: 400; }
+    .visit-stat span { color: var(--muted); font-size: 12px; }
+    footer { padding: 0 55px 36px; color: var(--muted); position: relative; z-index: 2; font-size: 12px; }
+
+    @media (max-width: 1050px) {
+      .background-video { object-position: 54% center; }
+      .experience::after { background: linear-gradient(90deg, rgba(7,15,17,.97), rgba(8,26,25,.58) 72%, rgba(9,38,32,.3)); }
+      .topbar, .hero, .trust-strip { width: calc(100% - 72px); }
+      .nav-pills a, .account a { padding-inline: 14px; }
+      .hero { margin-top: 110px; }
+      .intro { width: 68%; }
+      .trust-strip { margin-top: 130px; }
+      .section, .visit { width: calc(100% - 72px); }
+      .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .product-card { min-height: 430px; }
+    }
+    @media (max-width: 780px) {
+      .background-video { object-position: 54% center; }
+      .video-toggle { right: 14px; bottom: 14px; }
+      .experience::after { background: linear-gradient(180deg, rgba(7,16,18,.16), rgba(7,18,19,.36) 35%, rgba(8,18,20,.98) 59%, rgba(6,26,24,.99)); }
+      .topbar { width: calc(100% - 36px); margin-top: 18px; display: flex; justify-content: flex-end; }
+      .nav-pills { position: absolute; top: 54px; left: 0; right: 0; padding: 8px; display: none; flex-direction: column; align-items: stretch; background: rgba(8,18,19,.98); border-radius: 18px; box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+      .nav-pills.open { display: flex; }
+      .nav-pills a { width: 100%; }
+      .account .location { display: none; }
+      .account .call { min-height: 44px; padding-inline: 20px; }
+      .menu-button { display: grid; place-items: center; width: 44px; height: 44px; margin-right: auto; border: 0; border-radius: 50%; color: var(--ink); background: rgba(255,255,255,.15); cursor: pointer; }
+      .hero { width: calc(100% - 40px); margin-top: 280px; }
+      .intro { width: 100%; }
+      .eyebrow { font-size: 11px; }
+      h1 { font-size: clamp(44px, 13vw, 68px); }
+      .lede { margin-top: 20px; font-size: 15px; }
+      .hero-actions { flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+      .secondary-cta { padding-left: 15px; }
+      .hero-facts { margin-top: 26px; }
+      .trust-strip { width: calc(100% - 40px); margin-top: 56px; grid-template-columns: 1fr; gap: 12px; }
+      .trust-item { min-height: auto; display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-items: center; padding: 18px; border-radius: 22px 8px 22px 22px !important; }
+      .trust-icon { grid-row: 1 / span 2; margin: 0; }
+      .trust-item strong { margin: 0 0 4px; }
+      .section { width: calc(100% - 40px); padding: 76px 0; }
+      .section-heading { grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; }
+      .section-heading p { font-size: 15px; }
+      .catalog-tools { margin-bottom: 34px; padding: 18px; grid-template-columns: 1fr; }
+      .whatsapp-cta { width: 100%; }
+      .catalog-group { margin-top: 48px; }
+      .catalog-group-heading { align-items: center; }
+      .catalog-grid { grid-template-columns: 1fr; gap: 14px; }
+      .product-card { min-height: 0; grid-template-rows: 230px auto; border-radius: 26px 9px 26px 26px !important; }
+      .product-body { padding: 22px; }
+      .product-copy { min-height: 0; }
+      .price-row { align-items: flex-end; }
+      .visit { width: calc(100% - 40px); grid-template-columns: 1fr; margin-bottom: 44px; border-radius: 28px 10px 28px 28px; }
+      .visit-copy { padding: 34px 24px; }
+      .visit-stats { padding: 14px 24px 28px; }
+      footer { padding: 0 20px 88px; line-height: 1.6; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <article class="experience">
+      <video class="background-video" autoplay muted loop playsinline preload="auto" poster="asset-jpg-00.jpg" aria-hidden="true">
+        <source src="asset-webm-00.webm" type="video/webm; codecs=vp9" />
+        <source src="asset-mp4-00.mp4" type="video/mp4" />
+      </video>
+      <button class="video-toggle" type="button" aria-label="Pausar video de fondo" title="Pausar video de fondo">
+        <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>
+      </button>
+
+      <header class="topbar" aria-label="Navegación principal">
+        <button class="menu-button" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <nav class="nav-pills" id="main-nav">
+          <a class="active" href="#inicio">Inicio</a>
+          <a href="#catalogo">Catálogo</a>
+          <a href="#ventajas">Experiencia</a>
+          <a href="#visitanos">Visítanos</a>
+        </nav>
+        <div class="account">
+          <a class="location" href="#visitanos">Santa Marta</a>
+          <a class="call" href="tel:+573022525401">Llamar</a>
+        </div>
+      </header>
+
+      <section class="hero" id="inicio">
+        <div class="intro">
+          <p class="eyebrow">Vape shop · Santa Marta</p>
+          <h1>MOSTER<span class="accent">VAPE</span></h1>
+          <p class="lede">Dispositivos, pods y sabores seleccionados para adultos que buscan variedad y una experiencia de compra directa.</p>
+          <div class="hero-actions">
+            <a class="primary-cta" href="#catalogo">Ver catálogo <span class="arrow-disc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 18 18 6M9 6h9v9"/></svg></span></a>
+            <a class="secondary-cta" href="https://mostervape.ola.click/products" target="_blank" rel="noopener noreferrer">Pedir en línea</a>
+          </div>
+          <div class="hero-facts" aria-label="Información rápida">
+            <span>Abierto todos los días</span>
+            <span>9:00 a. m. – 11:00 p. m.</span>
+            <span>Solo para mayores de edad</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip" id="ventajas" aria-label="Experiencia Mostervape">
+        <article class="trust-item">
+          <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4 7v5c0 4.7 3.1 7.8 8 9 4.9-1.2 8-4.3 8-9V7l-8-4Z"/><path d="m8.5 12 2.2 2.2 4.8-4.8"/></svg>
+          <strong>Selección especializada</strong>
+          <span>Opciones recargables y sistemas pod de marcas reconocidas.</span>
+        </article>
+        <article class="trust-item">
+          <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 5h16v12H7l-3 3V5Z"/><path d="M8 9h8M8 13h5"/></svg>
+          <strong>Atención directa</strong>
+          <span>Consulta sabores, disponibilidad y recomendaciones por teléfono.</span>
+        </article>
+        <article class="trust-item">
+          <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <strong>En Santa Marta</strong>
+          <span>Encuéntranos en la Comuna 3, con horario extendido cada día.</span>
+        </article>
+      </section>
+
+      <section class="section" id="catalogo">
+        <div class="section-heading">
+          <h2>CATÁLOGO</h2>
+          <p>El portafolio completo publicado por Mostervape, organizado por categorías. Los precios están expresados en pesos colombianos y la disponibilidad se confirma directamente con la tienda.<span class="snapshot">Información consultada el 26 de septiembre de 2026.</span></p>
+        </div>
+
+        <div class="catalog-tools">
+          <div>
+            <p>37 productos · 9 categorías · elige una sección</p>
+            <nav class="category-nav" id="category-nav" aria-label="Categorías del catálogo"></nav>
+          </div>
+          <a class="whatsapp-cta" href="https://api.whatsapp.com/send?phone=573022525401&amp;text=%F0%9F%91%8B+Hola%2C+vengo+de+http%3A%2F%2Fmostervape.ola.click%0ADeseo+realizar+el+siguiente+pedido%3A%0A" target="_blank" rel="noopener noreferrer" aria-label="Hacer pedido por WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.7-.9L3 20.5l1.5-4.6a8.5 8.5 0 1 1 16-4.3Z"/><path d="M8.2 7.7c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.6.8c-.2.2-.1.5 0 .7.7 1.2 1.6 2.1 2.8 2.7.2.1.5.2.7 0l.9-1c.2-.2.4-.3.7-.2l1.7.8c.3.1.4.3.4.5 0 .3-.2 1.4-.7 1.9-.5.5-1.2.8-2 .8-.5 0-1.2-.1-2.2-.5-1-.4-4.1-1.5-6.8-5.3-.8-1.1-1.2-2.2-1.2-3 0-.8.4-1.5.8-1.9.3-.4.7-.6 1.2-.6Z"/></svg>
+            Pedir por WhatsApp
+          </a>
+        </div>
+        <div id="catalog-groups" aria-live="polite"></div>
+      </section>
+
+      <section class="visit" id="visitanos">
+        <div class="visit-copy">
+          <h2>ENCUÉNTRANOS</h2>
+          <p>Calle 7B # 19F-5, Comuna 3</p>
+          <p>Santa Marta, Magdalena, Colombia</p>
+          <div class="visit-actions">
+            <a class="primary" href="tel:+573022525401"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c1 .4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>302 252 5401</a>
+            <a class="outline" href="https://mostervape.ola.click/" target="_blank" rel="noopener noreferrer">Tienda en línea <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="visit-stats" aria-label="Horario y condiciones">
+          <div class="visit-stat"><b>09:00</b><span>Apertura, todos los días</span></div>
+          <div class="visit-stat"><b>23:00</b><span>Cierre, todos los días</span></div>
+          <div class="visit-stat"><b>18+</b><span>Venta exclusiva para mayores de edad</span></div>
+        </div>
+      </section>
+
+      <footer>© 2026 Mostervape · Santa Marta · El vapeo no está exento de riesgos.</footer>
+    </article>
+  </main>
+  <script>
+    (function () {
+      var products = [{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo de vapeo recargable de bateria y recargable de CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple.","name":"LITPOD KIT 15.000 PUFFS","price":"$ 65.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-kit-15000-puffs","image":"asset-webp-00.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"CAPSULAS DE CAMBIO PARA EL DISPOSITIVO. Sabores: Piña Colada, Banana Cream, Tropical Citrus, Sunset Breeze, Triple Berry, Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Frozen mint, Grape Berry","name":"LITPOD 15.000 (Capsulas)","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-15000-capsulas","image":"asset-webp-01.webp"},{"also_listed_in":["GLUCLOUD"],"availability":"Disponible","category":"Destacados","description":"Dispositivo compuesto por 2 piezas. 1 Batería y 1 Capsula. (Se venden por separado) Capsula de 4000 Puffs, Bateria totalmente recagable. Sabores: Grape soda, Blueberry, Sour green apple, Sour mango, Lush ice, Pink lemonade.","name":"BOX POD","price":"$ 40.000","product_url":"https://mostervape.ola.click/glucloud/box-pod","variants":"Batería $ 40.000 / Capsula $ 40.000 / Batería + Capsula $ 80.000","image":"asset-webp-02.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo desechable de 5.000 puffs con indicador de bateria, regulador de aire y punto de carga tipo C","discount":"-10%","name":"LITPOD SWITCH 5.000 PUFFS","old_price":"$ 50.000","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch-5000-puffs","image":"asset-webp-03.webp"},{"availability":"Agotado","category":"STLTH","description":"Desechable recargable de 9.000 PUFFS - Con 2 depositos de sabor / 2 sabores 1 vape","name":"STLTH FLIP 9K","price":"$ 45.000","product_url":"https://mostervape.ola.click/stlth/stlth-flip-9k","image":"asset-jpg-01.jpg"},{"availability":"Agotado","category":"MIJO","description":"Sabores: Energetic ice, Piña colada, Fresa sandia, Kiwi fresa, Frutos morados, Banana ice, Mango ice, Arandanos Ice","name":"MIJO VICA 6500 PUFFS","price":"$ 60.000","product_url":"https://mostervape.ola.click/mijo/mijo-vica-6500-puffs","image":"asset-jpg-02.jpg"},{"availability":"Disponible","category":"MIJO","description":"Ba","name":"SAMI 2","price":"$ 35.000","product_url":"https://mostervape.ola.click/mijo/sami-2","image":"asset-png-00.png"},{"availability":"Disponible","category":"MIJO","description":"Capsula de Sami 2 - 15.000 PUFFS\nSabores: Fresa sandia, Arandanos Ice, Banana ice, Manzana verde, Frutos morados, Maracuya, Lulo, Piña colada, Kiwi fresa, Menta.","name":"POD SAMI 2","price":"$ 45.000","product_url":"https://mostervape.ola.click/mijo/pod-sami-2","image":"asset-png-01.png"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"MUHAMEDS","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/muhameds","image":"asset-jpg-03.jpg"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"KRT","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/krt","image":"asset-png-02.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Pantalla para control digital, Carga tipo C","name":"BATERIA DIGITAL","price":"$ 40.000","product_url":"https://mostervape.ola.click/alternativos/bateria-digital","image":"asset-png-03.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Incluye cargador, Tipo de carga tipo C","name":"BATERIA UNIVERSAL","price":"$ 30.000","product_url":"https://mostervape.ola.click/alternativos/bateria-universal","image":"asset-webp-04.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 2500mg. Botón pulsador de encendido/apagado. Puerto de carga, Indicador LED de batería","name":"ROAR XL","price":"$ 80.000","product_url":"https://mostervape.ola.click/alternativos/roar-xl","image":"asset-webp-05.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 5000mg. Puerto de carga, Pantalla LED latera","name":"PULSE","price":"$ 95.000","product_url":"https://mostervape.ola.click/alternativos/pulse","image":"asset-webp-06.webp"},{"availability":"Disponible","category":"FUME","description":"Dispositivo 1300 PUFFS Sabores disponibles: Piña colada, Manzana, Rainbow candy, Purple Rain,Strawberry Banana, Strawberry Watermelon, Blueberry, Black Ice","name":"FUME MINI","price":"$ 15.000","product_url":"https://mostervape.ola.click/fume/fume-mini","image":"asset-webp-07.webp"},{"availability":"Disponible","category":"FUME","description":"Dispostivo 5000 PUFFS Recargable de bateria Sabores disponibles: Peaach Banana, Peach Strawberry, Peach Watermelon, Sour Apple, Apple Skittles, Grape fruit kiwi, Blueberry Kiwi Ice, Blueberry Guava, Lemon Mint, Passion fruit mango, Piña colada strawberry","name":"RECHARGE","price":"$ 25.000","product_url":"https://mostervape.ola.click/fume/recharge","image":"asset-webp-08.webp"},{"availability":"Agotado","category":"FUME","description":"El Fume Pro 30K es un cigarrillo electrónico desechable de alta capacidad que ofrece hasta 30.000 caladas en modo normal y 22.000 caladas en modo de doble núcleol","name":"FUME PRO 30K","price":"$ 60.000","product_url":"https://mostervape.ola.click/fume/fume-pro-30k","image":"asset-webp-09.webp"},{"availability":"Disponible","category":"WAKA","description":"Sandia, Blueberry y Mango","name":"SOLO 2 3500 PUFFS","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/solo-2-3500-puffs","image":"asset-webp-10.webp"},{"availability":"Disponible","category":"WAKA","description":"sabores 1 vape","name":"STICK 2000 PUFFS","price":"$ 30.000","product_url":"https://mostervape.ola.click/waka/stick-2000-puffs","image":"asset-webp-11.webp"},{"availability":"Disponible","category":"WAKA","description":"15.000 PUFFS (CAPSULAS DESECHABLES)","name":"WAKA CREATOR KIT","price":"$ 80.000","product_url":"https://mostervape.ola.click/waka/waka-creator-kit","image":"asset-webp-12.webp"},{"availability":"Disponible","category":"WAKA","description":"CAPSULA O BATERIA ( o ambos)","name":"WAKA CREATOR","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/waka-creator","variants":"CAPSULA 15K $ 45.000 / BATERIA $ 35.000","image":"asset-webp-13.webp"},{"availability":"Disponible","category":"WAKA","description":"Desechable recargable de 10.000 PUFFS","name":"SMASH AIR 10K","price":"$ 60.000","product_url":"https://mostervape.ola.click/waka/smash-air-10k","image":"asset-webp-14.webp"},{"availability":"Disponible","category":"GLUCLOUD","description":"Sabores: Grape soda, Blueberry, Sour green apple, Banana papaya, Sour mango, Lush ice, Peach ice, Pink lemonade, Black Ice, Bull soda, Lychee ice, Cool mint, Gummy bears, Strawberry Ice.","discount":"-25%","name":"LARGE 800 Puffs","old_price":"$ 40.000","price":"$ 30.000","product_url":"https://mostervape.ola.click/glucloud/large-800-puffs","image":"asset-webp-15.webp"},{"availability":"Disponible","category":"LIT VAPES","description":"CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Kiwi fresa, Peach lemonade, Frozen mint","name":"LITPOD SWITCH","price":"$ 35.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch","image":"asset-webp-16.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Dispositivo desechable 2.000 PUFFS","name":"SUPREME 2K","price":"$ 20.000","product_url":"https://mostervape.ola.click/linea-economica/supreme-2k","image":"asset-webp-17.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 5.000 PUFFS","name":"LOST MARY MO 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-mo-5k","image":"asset-webp-18.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 5.000 PUFFS","name":"LOST MARY OS 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-os-5k","image":"asset-webp-19.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 7.5000 PUFFS","name":"LOST VAPE ORION 7K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-vape-orion-7k","image":"asset-webp-20.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS. Pantalla LED inteligente con indicador de nivel de batería y líquido.","name":"FUME FRUTIA 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-frutia-8k","image":"asset-webp-21.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS","name":"TEKASHI- DUMMY 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/tekashi-dummy-8k","image":"asset-webp-22.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 10.000 PUFFS","name":"FUME NICKY JAM 10K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-10k","image":"asset-webp-23.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"BEYOND 12K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/beyond-12k","image":"asset-webp-24.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"FUME NICKY JAM 15K","price":"$ 30.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-15k","image":"asset-webp-25.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 30.000 PUFFS","name":"EB CREATE 30K","price":"$ 50.000","product_url":"https://mostervape.ola.click/linea-economica/eb-create-30k","image":"asset-webp-26.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 35.000 PUFFS - Con pantalla lateral y deposito de liquido lateral visible","name":"NEXA 35K","price":"$ 55.000","product_url":"https://mostervape.ola.click/linea-economica/nexa-35k","image":"asset-webp-27.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 30.000 PUFF","name":"EXTRE BAR 30K","price":"$ 55.000","product_url":"https://mostervape.ola.click/linea-economica/extre-bar-30k","image":"asset-webp-28.webp"},{"availability":"Agotado","category":"LINEA ECONOMICA","description":"Desechable recargable de 40.000 PUFFS - Con Pantalla 360º Completa","name":"VAPORESSO DOJO 40K","price":"$ 60.000","product_url":"https://mostervape.ola.click/linea-economica/vaporesso-dojo-40k","image":"asset-webp-29.webp"}];
+      var categories = ['Destacados', 'STLTH', 'MIJO', 'ALTERNATIVOS', 'FUME', 'WAKA', 'GLUCLOUD', 'LIT VAPES', 'LINEA ECONOMICA'];
+      var whatsappUrl = "https://api.whatsapp.com/send?phone=573022525401&text=%F0%9F%91%8B+Hola%2C+vengo+de+http%3A%2F%2Fmostervape.ola.click%0ADeseo+realizar+el+siguiente+pedido%3A%0A";
+      var nav = document.getElementById('category-nav');
+      var root = document.getElementById('catalog-groups');
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"]/g, function (character) {
+          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[character];
+        });
+      }
+      function slug(value) {
+        return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+      function entriesFor(category) {
+        return products.filter(function (product) {
+          return product.category === category || (product.also_listed_in || []).indexOf(category) !== -1;
+        });
+      }
+      function productCard(product, category) {
+        var soldOut = product.availability === 'Agotado';
+        var price = '<span class="price-stack">' + (product.old_price ? '<span class="old-price">Antes ' + escapeHtml(product.old_price) + '</span>' : '') + '<span class="price">' + escapeHtml(product.price) + '</span></span>';
+        var discount = product.discount ? '<span class="discount-badge">' + escapeHtml(product.discount) + '</span>' : '';
+        var variants = product.variants ? '<p class="variant-note">' + escapeHtml(product.variants) + '</p>' : '';
+        return '<article class="product-card">' +
+          '<div class="product-visual">' + discount + '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + ' de Mostervape" loading="lazy" decoding="async" width="640" height="640"></div>' +
+          '<div class="product-body">' +
+            '<div class="product-meta"><span class="brand">' + escapeHtml(category) + '</span><span class="status ' + (soldOut ? 'sold' : 'check') + '">' + escapeHtml(product.availability) + '</span></div>' +
+            '<h4>' + escapeHtml(product.name) + '</h4>' +
+            '<p class="product-copy">' + escapeHtml(product.description) + '</p>' + variants +
+            '<div class="price-row">' + price + '<div class="product-actions">' +
+              '<a class="product-link secondary" href="' + escapeHtml(product.product_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Ver ficha de ' + escapeHtml(product.name) + '">Ficha</a>' +
+              '<a class="product-link" href="' + escapeHtml(whatsappUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="' + (soldOut ? 'Consultar' : 'Pedir') + ' ' + escapeHtml(product.name) + ' por WhatsApp">' + (soldOut ? 'Consultar' : 'Pedir') + '</a>' +
+            '</div></div>' +
+          '</div></article>';
+      }
+
+      if (nav && root) {
+        nav.innerHTML = categories.map(function (category) {
+          return '<a href="#cat-' + slug(category) + '">' + escapeHtml(category) + '</a>';
+        }).join('');
+        root.innerHTML = categories.map(function (category) {
+          var entries = entriesFor(category);
+          return '<section class="catalog-group" id="cat-' + slug(category) + '">' +
+            '<div class="catalog-group-heading"><h3>' + escapeHtml(category) + '</h3><span>' + entries.length + (entries.length === 1 ? ' producto' : ' productos') + '</span></div>' +
+            '<div class="catalog-grid">' + entries.map(function (product) { return productCard(product, category); }).join('') + '</div>' +
+          '</section>';
+        }).join('');
+      }
+    }());
+  </script>
+  <script>
+    (function () {
+      var button = document.querySelector('.menu-button');
+      var nav = document.getElementById('main-nav');
+      if (button && nav) {
+        button.addEventListener('click', function () {
+          var open = nav.classList.toggle('open');
+          button.setAttribute('aria-expanded', String(open));
+          button.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        });
+        nav.addEventListener('click', function (event) {
+          if (event.target.tagName === 'A') {
+            nav.classList.remove('open');
+            button.setAttribute('aria-expanded', 'false');
+            button.setAttribute('aria-label', 'Abrir menú');
+          }
+        });
+      }
+
+      var video = document.querySelector('.background-video');
+      var videoToggle = document.querySelector('.video-toggle');
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function syncVideoButton() {
+        if (!video || !videoToggle) return;
+        var paused = video.paused;
+        videoToggle.classList.toggle('paused', paused);
+        videoToggle.setAttribute('aria-label', paused ? 'Reproducir video de fondo' : 'Pausar video de fondo');
+        videoToggle.setAttribute('title', paused ? 'Reproducir video de fondo' : 'Pausar video de fondo');
+      }
+      if (video && videoToggle) {
+        videoToggle.addEventListener('click', function () {
+          if (video.paused) {
+            var playback = video.play();
+            if (playback && typeof playback.catch === 'function') playback.catch(syncVideoButton);
+          } else {
+            video.pause();
+          }
+        });
+        video.addEventListener('play', syncVideoButton);
+        video.addEventListener('pause', syncVideoButton);
+        if (reduceMotion.matches) video.pause();
+        syncVideoButton();
+      }
+    }());
+  </script>
+</body>
+</html>
