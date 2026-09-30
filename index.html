@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Michroma&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="asset-css-00.css">
   <style>
     :root {
       color-scheme: light dark;
@@ -260,6 +261,190 @@
     .product-link { min-width: 42px; min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 999px; color: #071012; background: var(--accent); font-size: 11px; font-weight: 800; text-decoration: none; }
     .product-link.secondary { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.22); }
     .product-link:hover { background: #c3ff78; color: #071012; }
+    button.product-link { font-family: inherit; cursor: pointer; }
+
+    .mv-modal { position: fixed; inset: 0; z-index: 200; display: none; }
+    .mv-modal.open { display: block; }
+    .mv-modal-backdrop { position: absolute; inset: 0; background: rgba(2, 8, 9, .74); backdrop-filter: blur(6px); }
+    .mv-modal-card { position: relative; width: min(880px, calc(100% - 40px)); max-height: calc(100vh - 80px); overflow: auto; margin: 40px auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: rgba(6, 18, 19, .97); border: 1px solid rgba(255, 255, 255, .14); border-radius: 28px; box-shadow: 0 32px 90px rgba(0, 0, 0, .5); }
+    .mv-modal-media { background: #0a1a1c; display: grid; place-items: center; padding: 26px; }
+    .mv-modal-media img { width: 100%; height: auto; max-height: 480px; object-fit: contain; border-radius: 18px; }
+    .mv-modal-body { padding: clamp(22px, 4vw, 38px); display: grid; gap: 12px; align-content: start; }
+    .mv-modal-brand { margin: 0; color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .mv-modal-body h3 { margin: 0; font-family: "Michroma", sans-serif; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -.02em; color: #fff; font-weight: 400; }
+    .mv-modal-status { margin: 0; font-size: 12px; font-weight: 800; }
+    .mv-modal-status.check { color: var(--accent); }
+    .mv-modal-status.sold { color: #ff7a7a; }
+    .mv-modal-price { display: flex; align-items: baseline; gap: 10px; }
+    .mv-modal-price .price { font-size: 26px; }
+    .mv-modal-desc { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; white-space: pre-line; }
+    .mv-modal-variants { margin: 0; padding: 12px 14px; border: 1px dashed rgba(157, 255, 42, .4); border-radius: 14px; color: var(--accent); font-size: 12px; line-height: 1.55; }
+    .mv-modal-variants b { display: block; margin-bottom: 4px; color: #fff; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .mv-modal-order { justify-self: start; min-height: 48px; padding: 0 26px; font-size: 13px; }
+    .mv-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+    .mv-modal-add { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, .25); min-height: 48px; padding: 0 26px; font-size: 13px; }
+    .mv-modal-add:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+    .mv-modal-close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .22); background: rgba(6, 18, 19, .8); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; }
+    .mv-modal-close:hover { background: var(--accent); color: #071012; border-color: var(--accent); }
+    @media (max-width: 720px) {
+      .mv-modal-card { grid-template-columns: 1fr; margin: 20px auto; max-height: calc(100vh - 40px); }
+      .mv-modal-media img { max-height: 300px; }
+    }
+
+    /* Verificación de edad */
+    .age-gate { position: fixed; inset: 0; z-index: 400; display: none; place-items: center; background: rgba(2, 8, 9, .9); backdrop-filter: blur(10px); padding: 20px; }
+    .age-gate.open { display: grid; }
+    .age-gate-card { width: min(430px, 100%); text-align: center; padding: 40px 32px; background: rgba(6, 18, 19, .97); border: 1px solid rgba(255, 255, 255, .14); border-radius: 28px; box-shadow: 0 32px 90px rgba(0, 0, 0, .5); }
+    .age-gate-card .age-badge { width: 72px; height: 72px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--accent); color: var(--accent); font-family: "Michroma", sans-serif; font-size: 22px; }
+    .age-gate-card h2 { margin: 0 0 10px; font-family: "Michroma", sans-serif; font-size: 22px; color: #fff; font-weight: 400; }
+    .age-gate-card p { margin: 0 0 24px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .age-gate-actions { display: grid; gap: 10px; }
+    .age-gate-actions button { min-height: 50px; border-radius: 999px; font-size: 14px; font-weight: 800; cursor: pointer; border: 0; font-family: inherit; }
+    .age-gate-yes { background: var(--accent); color: #071012; }
+    .age-gate-no { background: transparent; color: #fff; border: 1px solid rgba(255, 255, 255, .25) !important; }
+    .age-gate-denied { display: none; }
+    .age-gate.denied .age-gate-ask { display: none; }
+    .age-gate.denied .age-gate-denied { display: block; }
+
+    /* Carrito */
+    .cart-button { position: relative; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .06); color: #fff; font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; }
+    .cart-button:hover { border-color: var(--accent); color: var(--accent); }
+    .cart-count { min-width: 20px; height: 20px; padding: 0 5px; display: inline-grid; place-items: center; border-radius: 999px; background: var(--accent); color: #071012; font-size: 11px; font-weight: 900; }
+    .cart-count.zero { background: rgba(255, 255, 255, .18); color: #fff; }
+    .cart-drawer { position: fixed; inset: 0; z-index: 300; display: none; }
+    .cart-drawer.open { display: block; }
+    .cart-backdrop { position: absolute; inset: 0; background: rgba(2, 8, 9, .7); backdrop-filter: blur(4px); }
+    .cart-panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, calc(100% - 40px)); display: flex; flex-direction: column; background: rgba(6, 18, 19, .98); border-left: 1px solid rgba(255, 255, 255, .14); }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; border-bottom: 1px solid rgba(255, 255, 255, .1); }
+    .cart-head h3 { margin: 0; font-family: "Michroma", sans-serif; font-size: 17px; color: #fff; font-weight: 400; }
+    .cart-close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .22); background: transparent; color: #fff; font-size: 17px; cursor: pointer; }
+    .cart-close:hover { background: var(--accent); color: #071012; border-color: var(--accent); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 14px 22px; display: grid; gap: 12px; align-content: start; }
+    .cart-empty { color: var(--muted); font-size: 14px; text-align: center; padding: 40px 10px; line-height: 1.6; }
+    .cart-item { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; padding: 10px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .09); border-radius: 16px; }
+    .cart-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; }
+    .cart-item-info b { display: block; color: #fff; font-size: 12px; line-height: 1.35; margin-bottom: 3px; }
+    .cart-item-info span { color: var(--accent); font-size: 12px; font-weight: 800; }
+    .cart-qty { display: flex; align-items: center; gap: 8px; }
+    .cart-qty button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .25); background: transparent; color: #fff; font-size: 14px; cursor: pointer; line-height: 1; }
+    .cart-qty button:hover { border-color: var(--accent); color: var(--accent); }
+    .cart-qty em { font-style: normal; color: #fff; font-size: 13px; font-weight: 800; min-width: 16px; text-align: center; }
+    .cart-remove { background: none; border: 0; color: var(--muted); font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 4px; font-family: inherit; }
+    .cart-foot { padding: 18px 22px 22px; border-top: 1px solid rgba(255, 255, 255, .1); display: grid; gap: 12px; }
+    .cart-total { display: flex; justify-content: space-between; align-items: baseline; color: #fff; font-size: 14px; font-weight: 800; }
+    .cart-total b { font-family: "Michroma", sans-serif; font-size: 20px; color: var(--accent); font-weight: 400; }
+    .cart-order { min-height: 52px; border-radius: 999px; border: 0; background: var(--accent); color: #071012; font-size: 14px; font-weight: 900; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+    .cart-order:hover { background: #c3ff78; }
+    .cart-note { margin: 0; color: var(--muted); font-size: 11px; text-align: center; line-height: 1.5; }
+    .cart-order.disabled { opacity: .45; pointer-events: none; }
+
+    /* Buscador y filtros */
+    .catalog-filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 6px; }
+    .catalog-filters input[type="search"], .catalog-filters select { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .18); background: rgba(4, 16, 17, .6); color: #fff; font-size: 13px; font-family: inherit; outline: none; }
+    .catalog-filters input[type="search"] { flex: 1 1 200px; }
+    .catalog-filters input[type="search"]::placeholder { color: var(--muted); }
+    .catalog-filters select { cursor: pointer; }
+    .catalog-filters select option { background: #0a1a1c; }
+    .catalog-filters input:focus, .catalog-filters select:focus { border-color: var(--accent); }
+    .no-results { padding: 46px 20px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .no-results b { display: block; color: #fff; font-size: 17px; margin-bottom: 6px; }
+
+    /* Estado abierto/cerrado */
+    .open-pill { display: inline-flex; align-items: center; gap: 8px; }
+    .open-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse-dot 1.8s infinite; }
+    .open-dot.closed { background: #ff7a7a; box-shadow: 0 0 10px #ff7a7a; animation: none; }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+    /* Testimonios */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .testimonial { padding: 26px 24px; background: rgba(6, 18, 19, .8); border: 1px solid rgba(255, 255, 255, .12); border-radius: 24px 10px 24px 24px; backdrop-filter: blur(18px); display: grid; gap: 12px; align-content: start; }
+    .testimonial .stars { color: var(--accent); font-size: 15px; letter-spacing: 3px; }
+    .testimonial p { margin: 0; color: #e8f0f0; font-size: 14px; line-height: 1.65; font-style: italic; }
+    .testimonial footer { padding: 0; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+    /* FAQ */
+    .faq-list { display: grid; gap: 10px; max-width: 820px; }
+    .faq-item { border: 1px solid rgba(255, 255, 255, .12); border-radius: 18px; background: rgba(6, 18, 19, .8); overflow: hidden; }
+    .faq-item summary { padding: 18px 22px; cursor: pointer; color: #fff; font-size: 14px; font-weight: 800; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; color: var(--accent); font-size: 20px; font-weight: 400; flex: none; }
+    .faq-item[open] summary::after { content: "–"; }
+    .faq-item .faq-answer { padding: 0 22px 20px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .faq-item .faq-answer a { color: var(--accent); }
+
+    /* Local y mapa */
+    .location-extras { width: min(1180px, calc(100% - 110px)); margin: 0 auto 70px; position: relative; z-index: 2; display: grid; gap: 18px; }
+    .local-gallery, .map-card { padding: 26px; background: rgba(6, 18, 19, .86); border: 1px solid rgba(255,255,255,.13); backdrop-filter: blur(18px); }
+    .map-card { border-radius: 30px 10px 30px 30px; }
+    .local-gallery { border-radius: 10px 30px 30px 30px; overflow: hidden; }
+    .local-gallery h3, .map-card h3 { margin: 0 0 8px; font-family: "Michroma", sans-serif; color: #fff; font-size: clamp(20px, 2.4vw, 28px); font-weight: 400; letter-spacing: -.03em; }
+    .local-gallery > p, .map-card > p { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .store-map { width: 100%; height: 380px; overflow: hidden; border-radius: 18px; background: #071012; }
+    .store-map-fallback { min-height: 380px; padding: 22px; display: grid; align-content: center; gap: 8px; border-radius: 18px; background: rgba(157,255,42,.08); }
+    .store-map-fallback strong { color: #fff; font-size: 15px; }
+    .store-map-fallback span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .map-action { min-height: 46px; margin-top: 14px; padding: 0 18px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: var(--accent); color: #071012; text-decoration: none; font-size: 13px; font-weight: 800; }
+    .pin { min-width: 36px; height: 36px; padding: 0 10px; display: grid; place-items: center; border: 2px solid #071012; border-radius: 999px; color: #071012; background: var(--accent); font: 900 12px/1 "Manrope", sans-serif; box-shadow: 0 0 0 5px rgba(157,255,42,.2), 0 8px 22px rgba(0,0,0,.5); }
+    .pin--on { color: #fff; background: #071012; border-color: var(--accent); }
+
+    .carousel-scene { position: relative; height: 460px; overflow: hidden; display: grid; place-items: center; perspective: 1100px; border-radius: 18px; background: radial-gradient(ellipse at 50% 76%, rgba(157,255,42,.14), transparent 38%), linear-gradient(180deg, rgba(3,11,13,.38), rgba(2,8,9,.84)); cursor: pointer; touch-action: pan-y; }
+    .carousel-scene::before { content: ""; position: absolute; left: 50%; bottom: 48px; width: min(620px, 82%); height: 54px; transform: translateX(-50%); border-radius: 50%; background: rgba(157,255,42,.12); filter: blur(18px); }
+    .carousel-ring { position: relative; width: 220px; height: 320px; transform-style: preserve-3d; animation: store-carousel-spin 24s linear infinite; will-change: transform; }
+    .carousel-scene:hover .carousel-ring, .carousel-scene:focus-within .carousel-ring, .carousel-scene.is-paused .carousel-ring { animation-play-state: paused; }
+    .carousel-card { --angle: calc(var(--i) * 72deg); position: absolute; inset: 0; margin: 0; overflow: hidden; transform: rotateY(var(--angle)) translateZ(330px); backface-visibility: hidden; border: 1px solid rgba(255,255,255,.2); border-radius: 24px 8px 24px 24px; background: #071012; box-shadow: 0 22px 48px rgba(0,0,0,.46), 0 0 22px rgba(157,255,42,.08); }
+    .carousel-card img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .carousel-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 65%, rgba(3,12,13,.54)); }
+    .carousel-control { position: absolute; right: 16px; bottom: 16px; z-index: 3; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: #fff; background: rgba(4,14,16,.82); backdrop-filter: blur(12px); font-size: 12px; font-weight: 800; cursor: pointer; }
+    .carousel-control:hover { color: #071012; border-color: var(--accent); background: var(--accent); }
+    .carousel-control svg[hidden] { display: none; }
+    .carousel-hint { position: absolute; left: 16px; bottom: 16px; z-index: 3; margin: 0; padding: 8px 12px; border-radius: 999px; color: var(--muted); background: rgba(4,14,16,.72); font-size: 11px; font-weight: 700; }
+    @keyframes store-carousel-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+    @media (max-width: 780px) {
+      .location-extras { width: calc(100% - 40px); margin-bottom: 44px; }
+      .local-gallery, .map-card { padding: 20px; border-radius: 26px 9px 26px 26px; }
+      .store-map, .store-map-fallback { height: 320px; min-height: 320px; }
+      .carousel-scene { height: 420px; perspective: 900px; }
+      .carousel-ring { width: 150px; height: 250px; }
+      .carousel-card { transform: rotateY(var(--angle)) translateZ(210px); border-radius: 18px 7px 18px 18px; }
+      .carousel-hint { display: none; }
+    }
+    @media (max-width: 390px) {
+      .carousel-ring { width: 132px; height: 228px; }
+      .carousel-card { transform: rotateY(var(--angle)) translateZ(176px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-ring { animation: none; transform: rotateY(0deg); }
+      .carousel-card { opacity: 0; pointer-events: none; }
+      .carousel-card:first-child { opacity: 1; pointer-events: auto; transform: none; }
+      .carousel-control, .carousel-hint { display: none; }
+    }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.revealed { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .open-dot { animation: none; }
+    }
+
+    /* Botón flotante WhatsApp */
+    .wa-float { position: fixed; right: 18px; bottom: 18px; z-index: 150; width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #071012; box-shadow: 0 12px 32px rgba(0, 0, 0, .4); transition: transform .2s ease; }
+    .wa-float:hover { transform: scale(1.08); background: #c3ff78; }
+    .mv-modal.open ~ .wa-float, body.modal-open .wa-float { display: none; }
+
+    /* Badges de producto */
+    .tag-badge { position: absolute; bottom: 14px; left: 14px; z-index: 2; padding: 6px 10px; color: #071012; background: #fff; border-radius: 999px; font-size: 10px; font-weight: 900; letter-spacing: .04em; }
+    .tag-badge.hot { background: var(--accent); }
+    @media (max-width: 1050px) {
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .cart-panel { width: calc(100% - 40px); }
+      .cart-label { display: none; }
+      .cart-button { padding: 0 12px; }
+    }
 
     .visit { width: min(1180px, calc(100% - 110px)); margin: 0 auto 70px; position: relative; z-index: 2; display: grid; grid-template-columns: 1.2fr .8fr; background: var(--glass-strong); border: 1px solid rgba(255,255,255,.13); border-radius: 38px 12px 38px 38px; overflow: hidden; backdrop-filter: blur(18px); }
     .visit-copy { padding: clamp(34px, 6vw, 72px); }
@@ -335,6 +520,26 @@
   </style>
 </head>
 <body>
+  <!-- Verificación de edad -->
+  <div class="age-gate" id="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
+    <div class="age-gate-card">
+      <div class="age-gate-ask">
+        <div class="age-badge">18+</div>
+        <h2 id="age-gate-title">Confirmación de edad</h2>
+        <p>Este sitio vende productos de vapeo, solo para mayores de 18 años. ¿Confirmas que eres mayor de edad?</p>
+        <div class="age-gate-actions">
+          <button type="button" class="age-gate-yes" id="age-yes">Sí, tengo 18 años o más</button>
+          <button type="button" class="age-gate-no" id="age-no">No, soy menor de edad</button>
+        </div>
+      </div>
+      <div class="age-gate-denied">
+        <div class="age-badge">18+</div>
+        <h2>Acceso restringido</h2>
+        <p>Lo sentimos: el contenido de MosterVape es solo para mayores de 18 años.</p>
+      </div>
+    </div>
+  </div>
+
   <main class="stage">
     <article class="experience">
       <video class="background-video" autoplay muted loop playsinline preload="auto" poster="asset-jpg-00.jpg" aria-hidden="true">
@@ -359,6 +564,10 @@
         <div class="account">
           <a class="location" href="#visitanos">Santa Marta</a>
           <a class="call" href="tel:+573022525401">Llamar</a>
+          <button class="cart-button" type="button" id="cart-open" aria-label="Abrir pedido">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6h15l-1.7 8.5a1 1 0 0 1-1 .8H8.7a1 1 0 0 1-1-.8L5.2 3.9A1 1 0 0 0 4.2 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>
+            <span class="cart-label">Pedido</span> <span class="cart-count zero" id="cart-count">0</span>
+          </button>
         </div>
       </header>
 
@@ -372,8 +581,8 @@
             <a class="secondary-cta" href="https://mostervape.ola.click/products" target="_blank" rel="noopener noreferrer">Pedir en línea</a>
           </div>
           <div class="hero-facts" aria-label="Información rápida">
-            <span>Abierto todos los días</span>
-            <span>9:00 a. m. – 11:00 p. m.</span>
+            <span class="open-pill" id="open-status" aria-live="polite"><i class="open-dot" aria-hidden="true"></i><b>Consultando horario…</b></span>
+            <span id="hours-today">Horario de hoy</span>
             <span>Solo para mayores de edad</span>
           </div>
         </div>
@@ -393,7 +602,7 @@
         <article class="trust-item">
           <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 21s7-5 7-11a7 7 0 1 0-14 0c0 6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
           <strong>En Santa Marta</strong>
-          <span>Encuéntranos en la Comuna 3, con horario extendido cada día.</span>
+          <span>Encuéntranos en el Corredor Universitario, Comuna 1.</span>
         </article>
       </section>
 
@@ -408,18 +617,86 @@
             <p>37 productos · 9 categorías · elige una sección</p>
             <nav class="category-nav" id="category-nav" aria-label="Categorías del catálogo"></nav>
           </div>
-          <a class="whatsapp-cta" href="https://api.whatsapp.com/send?phone=573022525401&amp;text=%F0%9F%91%8B+Hola%2C+vengo+de+http%3A%2F%2Fmostervape.ola.click%0ADeseo+realizar+el+siguiente+pedido%3A%0A" target="_blank" rel="noopener noreferrer" aria-label="Hacer pedido por WhatsApp">
+          <a class="whatsapp-cta" href="https://api.whatsapp.com/send?phone=573022525401&amp;text=%F0%9F%91%8B%20Hola%2C%20vengo%20de%20MosterVape%20%28mostervape.vercel.app%29.%0ADeseo%20hacer%20un%20pedido." target="_blank" rel="noopener noreferrer" aria-label="Hacer pedido por WhatsApp">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.5 11.6a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.7-.9L3 20.5l1.5-4.6a8.5 8.5 0 1 1 16-4.3Z"/><path d="M8.2 7.7c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.3.1.5-.1.7l-.6.8c-.2.2-.1.5 0 .7.7 1.2 1.6 2.1 2.8 2.7.2.1.5.2.7 0l.9-1c.2-.2.4-.3.7-.2l1.7.8c.3.1.4.3.4.5 0 .3-.2 1.4-.7 1.9-.5.5-1.2.8-2 .8-.5 0-1.2-.1-2.2-.5-1-.4-4.1-1.5-6.8-5.3-.8-1.1-1.2-2.2-1.2-3 0-.8.4-1.5.8-1.9.3-.4.7-.6 1.2-.6Z"/></svg>
             Pedir por WhatsApp
           </a>
         </div>
+
+        <div class="catalog-filters" role="search" aria-label="Buscar y filtrar productos">
+          <input type="search" id="catalog-search" placeholder="Buscar producto o sabor… (ej. menta, 15000 puffs)" aria-label="Buscar producto" />
+          <select id="filter-stock" aria-label="Filtrar por disponibilidad">
+            <option value="all">Disponibilidad: todos</option>
+            <option value="available">Solo disponibles</option>
+            <option value="sold">Solo agotados</option>
+          </select>
+          <select id="filter-sort" aria-label="Ordenar productos">
+            <option value="default">Orden: por categoría</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+          </select>
+        </div>
+
         <div id="catalog-groups" aria-live="polite"></div>
       </section>
 
-      <section class="visit" id="visitanos">
+      <section class="section reveal" id="opiniones">
+        <div class="section-heading">
+          <h2>OPINIONES</h2>
+          <p>Vista previa del espacio para testimonios. Estos textos son ejemplos y se reemplazarán por opiniones reales antes de publicar.</p>
+        </div>
+        <div class="testimonials-grid">
+          <article class="testimonial">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>"Pedí por WhatsApp y en minutos ya tenía confirmado mi pedido. El Litpod llegó sellado y con todos los sabores que pedí."</p>
+            <footer>— Ejemplo de testimonio</footer>
+          </article>
+          <article class="testimonial">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>"Buena asesoría: me ayudaron a elegir entre desechable y recargable según lo que yo buscaba. Se nota que saben del tema."</p>
+            <footer>— Ejemplo de testimonio</footer>
+          </article>
+          <article class="testimonial">
+            <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p>"Precios justos y siempre tienen variedad. El local queda fácil de ubicar y atienden hasta tarde."</p>
+            <footer>— Ejemplo de testimonio</footer>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="faq">
+        <div class="section-heading">
+          <h2>PREGUNTAS FRECUENTES</h2>
+          <p>Resolvemos las dudas más comunes antes de que pidas.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>¿Cómo hago un pedido?</summary>
+            <div class="faq-answer">Toca el botón <b>Pedir</b> en el producto que te guste o usa el botón <b>Pedido</b> del menú para armar tu lista y enviarla toda junta por WhatsApp. Te confirmamos disponibilidad y coordinamos la entrega.</div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Hacen domicilios en Santa Marta?</summary>
+            <div class="faq-answer">Sí, coordinamos la entrega por WhatsApp al <a href="tel:+573022525401">302 252 5401</a>. Escríbenos con tu pedido y tu ubicación para confirmar el servicio.</div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué medios de pago aceptan?</summary>
+            <div class="faq-answer">Aceptamos efectivo, Nequi y transferencia. Los detalles del pago se confirman directamente por WhatsApp al hacer tu pedido.</div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Venden a menores de edad?</summary>
+            <div class="faq-answer">No. La venta de productos de vapeo es exclusiva para mayores de 18 años y nos reservamos el derecho de verificar la edad.</div>
+          </details>
+          <details class="faq-item">
+            <summary>¿Qué hago si el producto que quiero está agotado?</summary>
+            <div class="faq-answer">Toca el botón <b>Avísame</b> en ese producto y te escribiremos por WhatsApp apenas vuelva a estar disponible.</div>
+          </details>
+        </div>
+      </section>
+
+      <section class="visit reveal" id="visitanos">
         <div class="visit-copy">
           <h2>ENCUÉNTRANOS</h2>
-          <p>Calle 7B # 19F-5, Comuna 3</p>
+          <p>Corredor Universitario, Cl. 29h #21b-88 Mz 0 Casa 364, Comuna 1</p>
           <p>Santa Marta, Magdalena, Colombia</p>
           <div class="visit-actions">
             <a class="primary" href="tel:+573022525401"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c1 .4 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>302 252 5401</a>
@@ -427,20 +704,94 @@
           </div>
         </div>
         <div class="visit-stats" aria-label="Horario y condiciones">
-          <div class="visit-stat"><b>09:00</b><span>Apertura, todos los días</span></div>
-          <div class="visit-stat"><b>23:00</b><span>Cierre, todos los días</span></div>
+          <div class="visit-stat"><b>15:00–23:00</b><span>Lunes, martes, jueves, viernes y domingo</span></div>
+          <div class="visit-stat"><b>17:00–23:00</b><span>Miércoles</span></div>
+          <div class="visit-stat"><b>18:30–23:30</b><span>Sábado</span></div>
           <div class="visit-stat"><b>18+</b><span>Venta exclusiva para mayores de edad</span></div>
+        </div>
+      </section>
+
+      <section class="location-extras reveal" aria-label="Nuestro local y ubicación">
+        <div class="map-card">
+          <h3>UBICACIÓN EN SANTA MARTA</h3>
+          <p>Corredor Universitario, Cl. 29h #21b-88 Mz 0 Casa 364, Comuna 1 · Santa Marta, Magdalena</p>
+          <div class="store-map" id="store-map" aria-label="Mapa de Santa Marta centrado en la ubicación de MosterVape"></div>
+          <div class="store-map-fallback" id="store-map-fallback" hidden>
+            <strong>MosterVape · Santa Marta</strong>
+            <span>Corredor Universitario, Cl. 29h #21b-88 Mz 0 Casa 364, Comuna 1</span>
+          </div>
+          <a class="map-action" href="https://www.google.com/maps/place/Mostervape/@11.2249522,-74.1952343,17z/data=!3m1!4b1!4m16!1m9!4m8!1m0!1m6!1m2!1s0x8ef4f5bbba57f0ff:0x8d23bb360a96fa9e!2sMostervape,+Corredor+Universitario,+Cl.+29h+%2321b-88+Mz+0+Casa+364,+Comuna+1,+Santa+Marta,+Magdalena!2m2!1d-74.1906209!2d11.224947!3m5!1s0x8ef4f5bbba57f0ff:0x8d23bb360a96fa9e!8m2!3d11.224947!4d-74.1906209!16s%2Fg%2F11v40v06h_?entry=ttu&amp;g_ep=EgoyMDI2MDkyNy4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Cómo llegar</a>
+        </div>
+        <div class="local-gallery">
+          <h3>NUESTRO LOCAL EN 360°</h3>
+          <p>Una vuelta por la fachada, la zona de atención y nuestras estanterías.</p>
+          <div class="carousel-scene" id="local-carousel" tabindex="0" role="group" aria-label="Carrusel 3D de cinco fotos reales del local. Toca o presiona espacio para pausar el giro.">
+            <div class="carousel-ring">
+              <figure class="carousel-card" style="--i:0"><img src="asset-jpg-01.jpg" alt="Fachada de MosterVape con letrero luminoso" width="384" height="512" loading="lazy" decoding="async"></figure>
+              <figure class="carousel-card" style="--i:1"><img src="asset-jpg-02.jpg" alt="Pared de estanterías negras iluminadas dentro de MosterVape" width="384" height="512" loading="lazy" decoding="async"></figure>
+              <figure class="carousel-card" style="--i:2"><img src="asset-jpg-03.jpg" alt="Barra de atención y estantería iluminada del local" width="384" height="512" loading="lazy" decoding="async"></figure>
+              <figure class="carousel-card" style="--i:3"><img src="asset-jpg-04.jpg" alt="Interior de MosterVape con televisor y estanterías" width="384" height="512" loading="lazy" decoding="async"></figure>
+              <figure class="carousel-card" style="--i:4"><img src="asset-jpg-05.jpg" alt="Estantería de madera con productos de MosterVape" width="384" height="512" loading="lazy" decoding="async"></figure>
+            </div>
+            <p class="carousel-hint" aria-hidden="true">Pasa el cursor para detener</p>
+            <button class="carousel-control" id="carousel-control" type="button" aria-pressed="false">
+              <svg class="carousel-pause-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+              <svg class="carousel-play-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="m8 5 11 7-11 7z"/></svg>
+              <span>Pausar giro</span>
+            </button>
+          </div>
         </div>
       </section>
 
       <footer>© 2026 Mostervape · Santa Marta · El vapeo no está exento de riesgos.</footer>
     </article>
   </main>
+  <div class="mv-modal" id="mv-modal" role="dialog" aria-modal="true" aria-labelledby="mv-modal-title" aria-hidden="true">
+    <div class="mv-modal-backdrop" data-mv-close></div>
+    <div class="mv-modal-card">
+      <button type="button" class="mv-modal-close" data-mv-close aria-label="Cerrar vista del producto">&times;</button>
+      <div class="mv-modal-media"><img id="mv-modal-img" src="asset-webp-00.webp" alt="Producto de MosterVape"></div>
+      <div class="mv-modal-body">
+        <p class="mv-modal-brand" id="mv-modal-brand"></p>
+        <h3 id="mv-modal-title"></h3>
+        <p class="mv-modal-status" id="mv-modal-status"></p>
+        <div class="mv-modal-price" id="mv-modal-price"></div>
+        <p class="mv-modal-desc" id="mv-modal-desc"></p>
+        <p class="mv-modal-variants" id="mv-modal-variants" hidden></p>
+        <div class="mv-modal-actions">
+          <a class="product-link mv-modal-order" id="mv-modal-order" href="#" target="_blank" rel="noopener noreferrer">Pedir</a>
+          <button type="button" class="product-link mv-modal-add" id="mv-modal-add">Agregar al pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     (function () {
-      var products = [{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo de vapeo recargable de bateria y recargable de CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple.","name":"LITPOD KIT 15.000 PUFFS","price":"$ 65.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-kit-15000-puffs","image":"asset-webp-00.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"CAPSULAS DE CAMBIO PARA EL DISPOSITIVO. Sabores: Piña Colada, Banana Cream, Tropical Citrus, Sunset Breeze, Triple Berry, Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Frozen mint, Grape Berry","name":"LITPOD 15.000 (Capsulas)","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-15000-capsulas","image":"asset-webp-01.webp"},{"also_listed_in":["GLUCLOUD"],"availability":"Disponible","category":"Destacados","description":"Dispositivo compuesto por 2 piezas. 1 Batería y 1 Capsula. (Se venden por separado) Capsula de 4000 Puffs, Bateria totalmente recagable. Sabores: Grape soda, Blueberry, Sour green apple, Sour mango, Lush ice, Pink lemonade.","name":"BOX POD","price":"$ 40.000","product_url":"https://mostervape.ola.click/glucloud/box-pod","variants":"Batería $ 40.000 / Capsula $ 40.000 / Batería + Capsula $ 80.000","image":"asset-webp-02.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo desechable de 5.000 puffs con indicador de bateria, regulador de aire y punto de carga tipo C","discount":"-10%","name":"LITPOD SWITCH 5.000 PUFFS","old_price":"$ 50.000","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch-5000-puffs","image":"asset-webp-03.webp"},{"availability":"Agotado","category":"STLTH","description":"Desechable recargable de 9.000 PUFFS - Con 2 depositos de sabor / 2 sabores 1 vape","name":"STLTH FLIP 9K","price":"$ 45.000","product_url":"https://mostervape.ola.click/stlth/stlth-flip-9k","image":"asset-jpg-01.jpg"},{"availability":"Agotado","category":"MIJO","description":"Sabores: Energetic ice, Piña colada, Fresa sandia, Kiwi fresa, Frutos morados, Banana ice, Mango ice, Arandanos Ice","name":"MIJO VICA 6500 PUFFS","price":"$ 60.000","product_url":"https://mostervape.ola.click/mijo/mijo-vica-6500-puffs","image":"asset-jpg-02.jpg"},{"availability":"Disponible","category":"MIJO","description":"Ba","name":"SAMI 2","price":"$ 35.000","product_url":"https://mostervape.ola.click/mijo/sami-2","image":"asset-png-00.png"},{"availability":"Disponible","category":"MIJO","description":"Capsula de Sami 2 - 15.000 PUFFS\nSabores: Fresa sandia, Arandanos Ice, Banana ice, Manzana verde, Frutos morados, Maracuya, Lulo, Piña colada, Kiwi fresa, Menta.","name":"POD SAMI 2","price":"$ 45.000","product_url":"https://mostervape.ola.click/mijo/pod-sami-2","image":"asset-png-01.png"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"MUHAMEDS","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/muhameds","image":"asset-jpg-03.jpg"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"KRT","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/krt","image":"asset-png-02.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Pantalla para control digital, Carga tipo C","name":"BATERIA DIGITAL","price":"$ 40.000","product_url":"https://mostervape.ola.click/alternativos/bateria-digital","image":"asset-png-03.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Incluye cargador, Tipo de carga tipo C","name":"BATERIA UNIVERSAL","price":"$ 30.000","product_url":"https://mostervape.ola.click/alternativos/bateria-universal","image":"asset-webp-04.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 2500mg. Botón pulsador de encendido/apagado. Puerto de carga, Indicador LED de batería","name":"ROAR XL","price":"$ 80.000","product_url":"https://mostervape.ola.click/alternativos/roar-xl","image":"asset-webp-05.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 5000mg. Puerto de carga, Pantalla LED latera","name":"PULSE","price":"$ 95.000","product_url":"https://mostervape.ola.click/alternativos/pulse","image":"asset-webp-06.webp"},{"availability":"Disponible","category":"FUME","description":"Dispositivo 1300 PUFFS Sabores disponibles: Piña colada, Manzana, Rainbow candy, Purple Rain,Strawberry Banana, Strawberry Watermelon, Blueberry, Black Ice","name":"FUME MINI","price":"$ 15.000","product_url":"https://mostervape.ola.click/fume/fume-mini","image":"asset-webp-07.webp"},{"availability":"Disponible","category":"FUME","description":"Dispostivo 5000 PUFFS Recargable de bateria Sabores disponibles: Peaach Banana, Peach Strawberry, Peach Watermelon, Sour Apple, Apple Skittles, Grape fruit kiwi, Blueberry Kiwi Ice, Blueberry Guava, Lemon Mint, Passion fruit mango, Piña colada strawberry","name":"RECHARGE","price":"$ 25.000","product_url":"https://mostervape.ola.click/fume/recharge","image":"asset-webp-08.webp"},{"availability":"Agotado","category":"FUME","description":"El Fume Pro 30K es un cigarrillo electrónico desechable de alta capacidad que ofrece hasta 30.000 caladas en modo normal y 22.000 caladas en modo de doble núcleol","name":"FUME PRO 30K","price":"$ 60.000","product_url":"https://mostervape.ola.click/fume/fume-pro-30k","image":"asset-webp-09.webp"},{"availability":"Disponible","category":"WAKA","description":"Sandia, Blueberry y Mango","name":"SOLO 2 3500 PUFFS","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/solo-2-3500-puffs","image":"asset-webp-10.webp"},{"availability":"Disponible","category":"WAKA","description":"sabores 1 vape","name":"STICK 2000 PUFFS","price":"$ 30.000","product_url":"https://mostervape.ola.click/waka/stick-2000-puffs","image":"asset-webp-11.webp"},{"availability":"Disponible","category":"WAKA","description":"15.000 PUFFS (CAPSULAS DESECHABLES)","name":"WAKA CREATOR KIT","price":"$ 80.000","product_url":"https://mostervape.ola.click/waka/waka-creator-kit","image":"asset-webp-12.webp"},{"availability":"Disponible","category":"WAKA","description":"CAPSULA O BATERIA ( o ambos)","name":"WAKA CREATOR","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/waka-creator","variants":"CAPSULA 15K $ 45.000 / BATERIA $ 35.000","image":"asset-webp-13.webp"},{"availability":"Disponible","category":"WAKA","description":"Desechable recargable de 10.000 PUFFS","name":"SMASH AIR 10K","price":"$ 60.000","product_url":"https://mostervape.ola.click/waka/smash-air-10k","image":"asset-webp-14.webp"},{"availability":"Disponible","category":"GLUCLOUD","description":"Sabores: Grape soda, Blueberry, Sour green apple, Banana papaya, Sour mango, Lush ice, Peach ice, Pink lemonade, Black Ice, Bull soda, Lychee ice, Cool mint, Gummy bears, Strawberry Ice.","discount":"-25%","name":"LARGE 800 Puffs","old_price":"$ 40.000","price":"$ 30.000","product_url":"https://mostervape.ola.click/glucloud/large-800-puffs","image":"asset-webp-15.webp"},{"availability":"Disponible","category":"LIT VAPES","description":"CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Kiwi fresa, Peach lemonade, Frozen mint","name":"LITPOD SWITCH","price":"$ 35.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch","image":"asset-webp-16.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Dispositivo desechable 2.000 PUFFS","name":"SUPREME 2K","price":"$ 20.000","product_url":"https://mostervape.ola.click/linea-economica/supreme-2k","image":"asset-webp-17.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 5.000 PUFFS","name":"LOST MARY MO 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-mo-5k","image":"asset-webp-18.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 5.000 PUFFS","name":"LOST MARY OS 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-os-5k","image":"asset-webp-19.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 7.5000 PUFFS","name":"LOST VAPE ORION 7K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-vape-orion-7k","image":"asset-webp-20.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS. Pantalla LED inteligente con indicador de nivel de batería y líquido.","name":"FUME FRUTIA 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-frutia-8k","image":"asset-webp-21.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS","name":"TEKASHI- DUMMY 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/tekashi-dummy-8k","image":"asset-webp-22.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 10.000 PUFFS","name":"FUME NICKY JAM 10K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-10k","image":"asset-webp-23.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"BEYOND 12K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/beyond-12k","image":"asset-webp-24.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"FUME NICKY JAM 15K","price":"$ 30.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-15k","image":"asset-webp-25.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 30.000 PUFFS","name":"EB CREATE 30K","price":"$ 50.000","product_url":"https://mostervape.ola.click/linea-economica/eb-create-30k","image":"asset-webp-26.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 35.000 PUFFS - Con pantalla lateral y deposito de liquido lateral visible","name":"NEXA 35K","price":"$ 55.000","product_url":"https://mostervape.ola.click/linea-economica/nexa-35k","image":"asset-webp-27.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 30.000 PUFF","name":"EXTRE BAR 30K","price":"$ 55.000","product_url":"https://mostervape.ola.click/linea-economica/extre-bar-30k","image":"asset-webp-28.webp"},{"availability":"Agotado","category":"LINEA ECONOMICA","description":"Desechable recargable de 40.000 PUFFS - Con Pantalla 360º Completa","name":"VAPORESSO DOJO 40K","price":"$ 60.000","product_url":"https://mostervape.ola.click/linea-economica/vaporesso-dojo-40k","image":"asset-webp-29.webp"}];
+      var products = [{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo de vapeo recargable de bateria y recargable de CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple.","name":"LITPOD KIT 15.000 PUFFS","price":"$ 65.000","tag":"Más vendido","product_url":"https://mostervape.ola.click/lit-vapes/litpod-kit-15000-puffs","image":"asset-webp-00.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"CAPSULAS DE CAMBIO PARA EL DISPOSITIVO. Sabores: Piña Colada, Banana Cream, Tropical Citrus, Sunset Breeze, Triple Berry, Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Frozen mint, Grape Berry","name":"LITPOD 15.000 (Capsulas)","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-15000-capsulas","image":"asset-webp-01.webp"},{"also_listed_in":["GLUCLOUD"],"availability":"Disponible","category":"Destacados","description":"Dispositivo compuesto por 2 piezas. 1 Batería y 1 Capsula. (Se venden por separado) Capsula de 4000 Puffs, Bateria totalmente recagable. Sabores: Grape soda, Blueberry, Sour green apple, Sour mango, Lush ice, Pink lemonade.","name":"BOX POD","price":"$ 40.000","product_url":"https://mostervape.ola.click/glucloud/box-pod","variants":"Batería $ 40.000 / Capsula $ 40.000 / Batería + Capsula $ 80.000","image":"asset-webp-02.webp"},{"also_listed_in":["LIT VAPES"],"availability":"Disponible","category":"Destacados","description":"Dispositivo desechable de 5.000 puffs con indicador de bateria, regulador de aire y punto de carga tipo C","discount":"-10%","name":"LITPOD SWITCH 5.000 PUFFS","old_price":"$ 50.000","price":"$ 45.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch-5000-puffs","image":"asset-webp-03.webp"},{"availability":"Agotado","category":"STLTH","description":"Desechable recargable de 9.000 PUFFS - Con 2 depositos de sabor / 2 sabores 1 vape","name":"STLTH FLIP 9K","price":"$ 45.000","product_url":"https://mostervape.ola.click/stlth/stlth-flip-9k","image":"asset-jpg-06.jpg"},{"availability":"Agotado","category":"MIJO","description":"Sabores: Energetic ice, Piña colada, Fresa sandia, Kiwi fresa, Frutos morados, Banana ice, Mango ice, Arandanos Ice","name":"MIJO VICA 6500 PUFFS","price":"$ 60.000","product_url":"https://mostervape.ola.click/mijo/mijo-vica-6500-puffs","image":"asset-jpg-07.jpg"},{"availability":"Disponible","category":"MIJO","description":"Ba","name":"SAMI 2","price":"$ 35.000","product_url":"https://mostervape.ola.click/mijo/sami-2","image":"asset-png-00.png"},{"availability":"Disponible","category":"MIJO","description":"Capsula de Sami 2 - 15.000 PUFFS\nSabores: Fresa sandia, Arandanos Ice, Banana ice, Manzana verde, Frutos morados, Maracuya, Lulo, Piña colada, Kiwi fresa, Menta.","name":"POD SAMI 2","price":"$ 45.000","product_url":"https://mostervape.ola.click/mijo/pod-sami-2","image":"asset-png-01.png"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"MUHAMEDS","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/muhameds","image":"asset-jpg-08.jpg"},{"availability":"Agotado","category":"ALTERNATIVOS","description":"Carts, recreativo, 1000mg.","name":"KRT","price":"$ 70.000","product_url":"https://mostervape.ola.click/alternativos/krt","image":"asset-png-02.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Pantalla para control digital, Carga tipo C","name":"BATERIA DIGITAL","price":"$ 40.000","product_url":"https://mostervape.ola.click/alternativos/bateria-digital","image":"asset-png-03.png"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Incluye cargador, Tipo de carga tipo C","name":"BATERIA UNIVERSAL","price":"$ 30.000","product_url":"https://mostervape.ola.click/alternativos/bateria-universal","image":"asset-webp-04.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 2500mg. Botón pulsador de encendido/apagado. Puerto de carga, Indicador LED de batería","name":"ROAR XL","price":"$ 80.000","product_url":"https://mostervape.ola.click/alternativos/roar-xl","image":"asset-webp-05.webp"},{"availability":"Disponible","category":"ALTERNATIVOS","description":"Recreativo, 5000mg. Puerto de carga, Pantalla LED latera","name":"PULSE","price":"$ 95.000","product_url":"https://mostervape.ola.click/alternativos/pulse","image":"asset-webp-06.webp"},{"availability":"Disponible","category":"FUME","description":"Dispositivo 1300 PUFFS Sabores disponibles: Piña colada, Manzana, Rainbow candy, Purple Rain,Strawberry Banana, Strawberry Watermelon, Blueberry, Black Ice","name":"FUME MINI","price":"$ 15.000","product_url":"https://mostervape.ola.click/fume/fume-mini","image":"asset-webp-07.webp"},{"availability":"Disponible","category":"FUME","description":"Dispostivo 5000 PUFFS Recargable de bateria Sabores disponibles: Peaach Banana, Peach Strawberry, Peach Watermelon, Sour Apple, Apple Skittles, Grape fruit kiwi, Blueberry Kiwi Ice, Blueberry Guava, Lemon Mint, Passion fruit mango, Piña colada strawberry","name":"RECHARGE","price":"$ 25.000","product_url":"https://mostervape.ola.click/fume/recharge","image":"asset-webp-08.webp"},{"availability":"Agotado","category":"FUME","description":"El Fume Pro 30K es un cigarrillo electrónico desechable de alta capacidad que ofrece hasta 30.000 caladas en modo normal y 22.000 caladas en modo de doble núcleol","name":"FUME PRO 30K","price":"$ 60.000","tag":"Más vendido","product_url":"https://mostervape.ola.click/fume/fume-pro-30k","image":"asset-webp-09.webp"},{"availability":"Disponible","category":"WAKA","description":"Sandia, Blueberry y Mango","name":"SOLO 2 3500 PUFFS","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/solo-2-3500-puffs","image":"asset-webp-10.webp"},{"availability":"Disponible","category":"WAKA","description":"sabores 1 vape","name":"STICK 2000 PUFFS","price":"$ 30.000","product_url":"https://mostervape.ola.click/waka/stick-2000-puffs","image":"asset-webp-11.webp"},{"availability":"Disponible","category":"WAKA","description":"15.000 PUFFS (CAPSULAS DESECHABLES)","name":"WAKA CREATOR KIT","price":"$ 80.000","product_url":"https://mostervape.ola.click/waka/waka-creator-kit","image":"asset-webp-12.webp"},{"availability":"Disponible","category":"WAKA","description":"CAPSULA O BATERIA ( o ambos)","name":"WAKA CREATOR","price":"$ 45.000","product_url":"https://mostervape.ola.click/waka/waka-creator","variants":"CAPSULA 15K $ 45.000 / BATERIA $ 35.000","image":"asset-webp-13.webp"},{"availability":"Disponible","category":"WAKA","description":"Desechable recargable de 10.000 PUFFS","name":"SMASH AIR 10K","price":"$ 60.000","product_url":"https://mostervape.ola.click/waka/smash-air-10k","image":"asset-webp-14.webp"},{"availability":"Disponible","category":"GLUCLOUD","description":"Sabores: Grape soda, Blueberry, Sour green apple, Banana papaya, Sour mango, Lush ice, Peach ice, Pink lemonade, Black Ice, Bull soda, Lychee ice, Cool mint, Gummy bears, Strawberry Ice.","discount":"-25%","name":"LARGE 800 Puffs","old_price":"$ 40.000","price":"$ 30.000","product_url":"https://mostervape.ola.click/glucloud/large-800-puffs","image":"asset-webp-15.webp"},{"availability":"Disponible","category":"LIT VAPES","description":"CAPSULAS. Sabores: Frozen Blueberry, Frozen Grape, Frozen Watermelon Mango Twist, Green Apple, Kiwi fresa, Peach lemonade, Frozen mint","name":"LITPOD SWITCH","price":"$ 35.000","product_url":"https://mostervape.ola.click/lit-vapes/litpod-switch","image":"asset-webp-16.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Dispositivo desechable 2.000 PUFFS","name":"SUPREME 2K","price":"$ 20.000","product_url":"https://mostervape.ola.click/linea-economica/supreme-2k","image":"asset-webp-17.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 5.000 PUFFS","name":"LOST MARY MO 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-mo-5k","image":"asset-webp-18.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 5.000 PUFFS","name":"LOST MARY OS 5K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-mary-os-5k","image":"asset-webp-19.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 7.5000 PUFFS","name":"LOST VAPE ORION 7K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/lost-vape-orion-7k","image":"asset-webp-20.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS. Pantalla LED inteligente con indicador de nivel de batería y líquido.","name":"FUME FRUTIA 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-frutia-8k","image":"asset-webp-21.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 8.000 PUFFS","name":"TEKASHI- DUMMY 8K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/tekashi-dummy-8k","image":"asset-webp-22.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 10.000 PUFFS","name":"FUME NICKY JAM 10K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-10k","image":"asset-webp-23.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"BEYOND 12K","price":"$ 25.000","product_url":"https://mostervape.ola.click/linea-economica/beyond-12k","image":"asset-webp-24.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 15.000 PUFFS","name":"FUME NICKY JAM 15K","price":"$ 30.000","product_url":"https://mostervape.ola.click/linea-economica/fume-nicky-jam-15k","image":"asset-webp-25.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 30.000 PUFFS","name":"EB CREATE 30K","price":"$ 50.000","product_url":"https://mostervape.ola.click/linea-economica/eb-create-30k","image":"asset-webp-26.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable de 35.000 PUFFS - Con pantalla lateral y deposito de liquido lateral visible","name":"NEXA 35K","price":"$ 55.000","tag":"Nuevo","product_url":"https://mostervape.ola.click/linea-economica/nexa-35k","image":"asset-webp-27.webp"},{"availability":"Disponible","category":"LINEA ECONOMICA","description":"Desechable recargable 30.000 PUFF","name":"EXTRE BAR 30K","price":"$ 55.000","product_url":"https://mostervape.ola.click/linea-economica/extre-bar-30k","image":"asset-webp-28.webp"},{"availability":"Agotado","category":"LINEA ECONOMICA","description":"Desechable recargable de 40.000 PUFFS - Con Pantalla 360º Completa","name":"VAPORESSO DOJO 40K","price":"$ 60.000","tag":"Nuevo","product_url":"https://mostervape.ola.click/linea-economica/vaporesso-dojo-40k","image":"asset-webp-29.webp"}];
       var categories = ['Destacados', 'STLTH', 'MIJO', 'ALTERNATIVOS', 'FUME', 'WAKA', 'GLUCLOUD', 'LIT VAPES', 'LINEA ECONOMICA'];
-      var whatsappUrl = "https://api.whatsapp.com/send?phone=573022525401&text=%F0%9F%91%8B+Hola%2C+vengo+de+http%3A%2F%2Fmostervape.ola.click%0ADeseo+realizar+el+siguiente+pedido%3A%0A";
+      var WHATSAPP_PHONE = "573022525401";
+      var SITE_LABEL = "MosterVape (mostervape.vercel.app)";
+      function whatsappUrlFor(product) {
+        var lines = ["\uD83D\uDC4B Hola, vengo de " + SITE_LABEL + ".", "Deseo hacer el siguiente pedido:", "", "\u2022 " + product.name + " \u2014 " + product.price, "Estado: " + product.availability];
+        return "https://api.whatsapp.com/send?phone=" + WHATSAPP_PHONE + "&text=" + encodeURIComponent(lines.join("\n"));
+      }
+      function whatsappUrlGeneric() {
+        var lines = ["\uD83D\uDC4B Hola, vengo de " + SITE_LABEL + ".", "Deseo hacer un pedido."];
+        return "https://api.whatsapp.com/send?phone=" + WHATSAPP_PHONE + "&text=" + encodeURIComponent(lines.join("\n"));
+      }
+      function whatsappNotifyFor(product) {
+        var lines = ["\uD83D\uDC4B Hola, vengo de " + SITE_LABEL + ".", "\u00BFMe pueden avisar cuando vuelva a estar disponible?", "", "\u2022 " + product.name + " \u2014 " + product.price];
+        return "https://api.whatsapp.com/send?phone=" + WHATSAPP_PHONE + "&text=" + encodeURIComponent(lines.join("\n"));
+      }
+      function priceValue(product) {
+        return parseInt(String(product.price).replace(/\D/g, ''), 10) || 0;
+      }
+      function money(value) {
+        return '$ ' + String(value).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      }
+      function normText(value) {
+        return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      }
       var nav = document.getElementById('category-nav');
       var root = document.getElementById('catalog-groups');
 
@@ -461,32 +812,270 @@
         var soldOut = product.availability === 'Agotado';
         var price = '<span class="price-stack">' + (product.old_price ? '<span class="old-price">Antes ' + escapeHtml(product.old_price) + '</span>' : '') + '<span class="price">' + escapeHtml(product.price) + '</span></span>';
         var discount = product.discount ? '<span class="discount-badge">' + escapeHtml(product.discount) + '</span>' : '';
+        var tagBadge = product.tag ? '<span class="tag-badge' + (product.tag === 'Más vendido' ? ' hot' : '') + '">' + escapeHtml(product.tag) + '</span>' : '';
         var variants = product.variants ? '<p class="variant-note">' + escapeHtml(product.variants) + '</p>' : '';
+        var actionUrl = soldOut ? whatsappNotifyFor(product) : whatsappUrlFor(product);
+        var actionLabel = soldOut ? 'Avísame' : 'Pedir';
         return '<article class="product-card">' +
-          '<div class="product-visual">' + discount + '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + ' de Mostervape" loading="lazy" decoding="async" width="640" height="640"></div>' +
+          '<div class="product-visual">' + discount + tagBadge + '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + ' de Mostervape" loading="lazy" decoding="async" width="640" height="640"></div>' +
           '<div class="product-body">' +
             '<div class="product-meta"><span class="brand">' + escapeHtml(category) + '</span><span class="status ' + (soldOut ? 'sold' : 'check') + '">' + escapeHtml(product.availability) + '</span></div>' +
             '<h4>' + escapeHtml(product.name) + '</h4>' +
             '<p class="product-copy">' + escapeHtml(product.description) + '</p>' + variants +
             '<div class="price-row">' + price + '<div class="product-actions">' +
-              '<a class="product-link secondary" href="' + escapeHtml(product.product_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Ver ficha de ' + escapeHtml(product.name) + '">Ficha</a>' +
-              '<a class="product-link" href="' + escapeHtml(whatsappUrl) + '" target="_blank" rel="noopener noreferrer" aria-label="' + (soldOut ? 'Consultar' : 'Pedir') + ' ' + escapeHtml(product.name) + ' por WhatsApp">' + (soldOut ? 'Consultar' : 'Pedir') + '</a>' +
+              '<button type="button" class="product-link secondary" data-view-index="' + products.indexOf(product) + '" aria-label="Ver ' + escapeHtml(product.name) + '">Ver</button>' +
+              '<a class="product-link" href="' + actionUrl + '" target="_blank" rel="noopener noreferrer" aria-label="' + actionLabel + ' ' + escapeHtml(product.name) + ' por WhatsApp">' + actionLabel + '</a>' +
             '</div></div>' +
           '</div></article>';
       }
 
-      if (nav && root) {
-        nav.innerHTML = categories.map(function (category) {
-          return '<a href="#cat-' + slug(category) + '">' + escapeHtml(category) + '</a>';
-        }).join('');
-        root.innerHTML = categories.map(function (category) {
-          var entries = entriesFor(category);
+      var searchInput = document.getElementById('catalog-search');
+      var stockFilter = document.getElementById('filter-stock');
+      var sortFilter = document.getElementById('filter-sort');
+
+      var revealObserver = ('IntersectionObserver' in window)
+        ? new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08 })
+        : null;
+      function observeReveals() {
+        var nodes = document.querySelectorAll('.reveal:not(.revealed)');
+        for (var i = 0; i < nodes.length; i++) {
+          if (revealObserver) revealObserver.observe(nodes[i]);
+          else nodes[i].classList.add('revealed');
+        }
+      }
+
+      function filteredEntries(category) {
+        var query = searchInput ? normText(searchInput.value.trim()) : '';
+        var stock = stockFilter ? stockFilter.value : 'all';
+        var sort = sortFilter ? sortFilter.value : 'default';
+        var entries = entriesFor(category).filter(function (product) {
+          if (stock === 'available' && product.availability !== 'Disponible') return false;
+          if (stock === 'sold' && product.availability !== 'Agotado') return false;
+          if (query) {
+            var haystack = normText(product.name + ' ' + product.description + ' ' + product.category + ' ' + (product.variants || ''));
+            if (haystack.indexOf(query) === -1) return false;
+          }
+          return true;
+        });
+        if (sort === 'price-asc') entries.sort(function (a, b) { return priceValue(a) - priceValue(b); });
+        if (sort === 'price-desc') entries.sort(function (a, b) { return priceValue(b) - priceValue(a); });
+        return entries;
+      }
+
+      function renderCatalog() {
+        if (!root) return;
+        var total = 0;
+        var html = categories.map(function (category) {
+          var entries = filteredEntries(category);
+          if (!entries.length) return '';
+          total += entries.length;
           return '<section class="catalog-group" id="cat-' + slug(category) + '">' +
             '<div class="catalog-group-heading"><h3>' + escapeHtml(category) + '</h3><span>' + entries.length + (entries.length === 1 ? ' producto' : ' productos') + '</span></div>' +
             '<div class="catalog-grid">' + entries.map(function (product) { return productCard(product, category); }).join('') + '</div>' +
           '</section>';
         }).join('');
+        if (!total) {
+          root.innerHTML = '<div class="no-results"><b>Sin resultados</b>No encontramos productos con ese criterio. Prueba con otra palabra o ajusta los filtros.</div>';
+        } else {
+          root.innerHTML = html;
+        }
+        observeReveals();
       }
+
+      if (nav) {
+        nav.innerHTML = categories.map(function (category) {
+          return '<a href="#cat-' + slug(category) + '">' + escapeHtml(category) + '</a>';
+        }).join('');
+      }
+      if (root) {
+        renderCatalog();
+        if (searchInput) searchInput.addEventListener('input', renderCatalog);
+        if (stockFilter) stockFilter.addEventListener('change', renderCatalog);
+        if (sortFilter) sortFilter.addEventListener('change', renderCatalog);
+      }
+
+      var modal = document.getElementById('mv-modal');
+      var modalImg = document.getElementById('mv-modal-img');
+      var modalBrand = document.getElementById('mv-modal-brand');
+      var modalTitle = document.getElementById('mv-modal-title');
+      var modalStatus = document.getElementById('mv-modal-status');
+      var modalPrice = document.getElementById('mv-modal-price');
+      var modalDesc = document.getElementById('mv-modal-desc');
+      var modalVariants = document.getElementById('mv-modal-variants');
+      var modalOrder = document.getElementById('mv-modal-order');
+      var modalAdd = document.getElementById('mv-modal-add');
+      var modalProductIndex = -1;
+      function openProductModal(product) {
+        if (!modal || !product) return;
+        var soldOut = product.availability === 'Agotado';
+        modalProductIndex = products.indexOf(product);
+        modalImg.src = product.image;
+        modalImg.alt = product.name + ' de Mostervape';
+        modalBrand.textContent = product.category;
+        modalTitle.textContent = product.name;
+        modalStatus.textContent = product.availability;
+        modalStatus.className = 'mv-modal-status ' + (soldOut ? 'sold' : 'check');
+        modalPrice.innerHTML = (product.old_price ? '<span class="old-price">Antes ' + escapeHtml(product.old_price) + '</span>' : '') +
+          '<span class="price">' + escapeHtml(product.price) + '</span>' +
+          (product.discount ? '<span class="discount-badge" style="position:static">' + escapeHtml(product.discount) + '</span>' : '');
+        modalDesc.textContent = product.description;
+        if (product.variants) {
+          modalVariants.innerHTML = '<b>Presentaciones</b>' + escapeHtml(product.variants);
+          modalVariants.hidden = false;
+        } else {
+          modalVariants.hidden = true;
+        }
+        var actionUrl = soldOut ? whatsappNotifyFor(product) : whatsappUrlFor(product);
+        var actionLabel = soldOut ? 'Avísame' : 'Pedir';
+        modalOrder.href = actionUrl;
+        modalOrder.textContent = actionLabel;
+        modalOrder.setAttribute('aria-label', actionLabel + ' ' + product.name + ' por WhatsApp');
+        if (modalAdd) modalAdd.style.display = soldOut ? 'none' : '';
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeProductModal() {
+        if (!modal) return;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        modalProductIndex = -1;
+        document.body.style.overflow = '';
+      }
+      if (root && modal) {
+        root.addEventListener('click', function (event) {
+          var button = event.target.closest('[data-view-index]');
+          if (!button) return;
+          openProductModal(products[parseInt(button.getAttribute('data-view-index'), 10)]);
+        });
+        modal.addEventListener('click', function (event) {
+          if (event.target.closest('[data-mv-close]')) closeProductModal();
+        });
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && modal.classList.contains('open')) closeProductModal();
+        });
+        if (modalAdd) {
+          modalAdd.addEventListener('click', function () {
+            if (modalProductIndex < 0) return;
+            addToCart(modalProductIndex);
+            closeProductModal();
+            openCart();
+          });
+        }
+      }
+      /* ---- Carrito de pedido ---- */
+      var cartDrawer = document.getElementById('cart-drawer');
+      var cartItemsEl = document.getElementById('cart-items');
+      var cartCountEl = document.getElementById('cart-count');
+      var cartTotalEl = document.getElementById('cart-total');
+      var cartOrderEl = document.getElementById('cart-order');
+      var cart = {};
+      function saveCart() {}
+      function cartQuantity() {
+        return Object.keys(cart).reduce(function (sum, key) { return sum + cart[key]; }, 0);
+      }
+      function cartTotalValue() {
+        return Object.keys(cart).reduce(function (sum, key) {
+          return sum + priceValue(products[parseInt(key, 10)]) * cart[key];
+        }, 0);
+      }
+      function cartOrderUrl() {
+        var lines = ["\uD83D\uDC4B Hola, vengo de " + SITE_LABEL + ".", "Deseo hacer el siguiente pedido:", ""];
+        Object.keys(cart).forEach(function (key) {
+          var index = parseInt(key, 10);
+          var product = products[index];
+          var qty = cart[key];
+          lines.push("\u2022 " + product.name + " \u2014 " + product.price + " (x" + qty + ") = " + money(priceValue(product) * qty));
+        });
+        lines.push("", "Total estimado: " + money(cartTotalValue()));
+        return "https://api.whatsapp.com/send?phone=" + WHATSAPP_PHONE + "&text=" + encodeURIComponent(lines.join("\n"));
+      }
+      function renderCart() {
+        if (!cartItemsEl) return;
+        var keys = Object.keys(cart);
+        if (!keys.length) {
+          cartItemsEl.innerHTML = '<p class="cart-empty">Tu pedido está vacío.<br>Toca <b>Ver</b> en un producto y luego <b>Agregar al pedido</b> para armarlo aquí.</p>';
+        } else {
+          cartItemsEl.innerHTML = keys.map(function (key) {
+            var index = parseInt(key, 10);
+            var product = products[index];
+            var qty = cart[key];
+            return '<div class="cart-item">' +
+              '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy">' +
+              '<div class="cart-item-info"><b>' + escapeHtml(product.name) + '</b><span>' + escapeHtml(product.price) + '</span><br><button type="button" class="cart-remove" data-cart-remove="' + index + '">Quitar</button></div>' +
+              '<div class="cart-qty"><button type="button" data-cart-dec="' + index + '" aria-label="Quitar uno">−</button><em>' + qty + '</em><button type="button" data-cart-inc="' + index + '" aria-label="Agregar uno">+</button></div>' +
+            '</div>';
+          }).join('');
+        }
+        if (cartCountEl) {
+          var total = cartQuantity();
+          cartCountEl.textContent = String(total);
+          cartCountEl.classList.toggle('zero', total === 0);
+        }
+        if (cartTotalEl) cartTotalEl.textContent = money(cartTotalValue());
+        if (cartOrderEl) {
+          cartOrderEl.href = cartOrderUrl();
+          cartOrderEl.classList.toggle('disabled', !keys.length);
+          cartOrderEl.setAttribute('aria-disabled', String(!keys.length));
+        }
+      }
+      function addToCart(index) {
+        if (index < 0 || index >= products.length) return;
+        if (products[index].availability !== 'Disponible') return;
+        cart[index] = (cart[index] || 0) + 1;
+        saveCart();
+        renderCart();
+      }
+      function openCart() {
+        if (!cartDrawer) return;
+        renderCart();
+        cartDrawer.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeCart() {
+        if (!cartDrawer) return;
+        cartDrawer.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      var cartOpenBtn = document.getElementById('cart-open');
+      if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
+      var cartCloseBtn = document.getElementById('cart-close');
+      if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
+      var cartBackdrop = document.getElementById('cart-backdrop');
+      if (cartBackdrop) cartBackdrop.addEventListener('click', closeCart);
+      if (cartItemsEl) {
+        cartItemsEl.addEventListener('click', function (event) {
+          var inc = event.target.closest('[data-cart-inc]');
+          var dec = event.target.closest('[data-cart-dec]');
+          var rem = event.target.closest('[data-cart-remove]');
+          var key = null;
+          if (inc) key = inc.getAttribute('data-cart-inc');
+          else if (dec) key = dec.getAttribute('data-cart-dec');
+          else if (rem) key = rem.getAttribute('data-cart-remove');
+          if (key === null) return;
+          if (inc) cart[key] = (cart[key] || 0) + 1;
+          else if (dec) { cart[key] = (cart[key] || 0) - 1; if (cart[key] <= 0) delete cart[key]; }
+          else delete cart[key];
+          saveCart();
+          renderCart();
+        });
+      }
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && cartDrawer && cartDrawer.classList.contains('open')) closeCart();
+      });
+      renderCart();
+
+      observeReveals();
+
+      var headerCta = document.querySelector('.whatsapp-cta');
+      if (headerCta) headerCta.href = whatsappUrlGeneric();
     }());
   </script>
   <script>
@@ -534,5 +1123,156 @@
       }
     }());
   </script>
+  <script>
+    (function () {
+      var gate = document.getElementById('age-gate');
+      if (!gate) return;
+      gate.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      var yesBtn = document.getElementById('age-yes');
+      var noBtn = document.getElementById('age-no');
+      if (yesBtn) {
+        yesBtn.addEventListener('click', function () {
+          gate.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+      if (noBtn) {
+        noBtn.addEventListener('click', function () {
+          gate.classList.add('denied');
+        });
+      }
+    }());
+  </script>
+  <script src="asset-js-00.js"></script>
+  <script src="asset-js-01.js"></script>
+  <script>
+    (function () {
+      var status = document.getElementById('open-status');
+      var hoursToday = document.getElementById('hours-today');
+      var schedules = {
+        Sun: { open: 900, close: 1380, label: '3:00 p. m.–11:00 p. m.', day: 'domingo' },
+        Mon: { open: 900, close: 1380, label: '3:00 p. m.–11:00 p. m.', day: 'lunes' },
+        Tue: { open: 900, close: 1380, label: '3:00 p. m.–11:00 p. m.', day: 'martes' },
+        Wed: { open: 1020, close: 1380, label: '5:00 p. m.–11:00 p. m.', day: 'miércoles' },
+        Thu: { open: 900, close: 1380, label: '3:00 p. m.–11:00 p. m.', day: 'jueves' },
+        Fri: { open: 900, close: 1380, label: '3:00 p. m.–11:00 p. m.', day: 'viernes' },
+        Sat: { open: 1110, close: 1410, label: '6:30 p. m.–11:30 p. m.', day: 'sábado' }
+      };
+      function bogotaNow() {
+        var parts = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/Bogota', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+        }).formatToParts(new Date());
+        var values = {};
+        parts.forEach(function (part) { values[part.type] = part.value; });
+        return { day: values.weekday, minutes: parseInt(values.hour, 10) * 60 + parseInt(values.minute, 10) };
+      }
+      function updateOpenStatus() {
+        if (!status || !hoursToday) return;
+        var now = bogotaNow();
+        var schedule = schedules[now.day];
+        var open = schedule && now.minutes >= schedule.open && now.minutes < schedule.close;
+        var dot = status.querySelector('.open-dot');
+        var label = status.querySelector('b');
+        if (dot) dot.classList.toggle('closed', !open);
+        if (label) label.textContent = open ? 'Abierto ahora' : 'Cerrado ahora';
+        hoursToday.textContent = 'Hoy, ' + schedule.day + ' · ' + schedule.label;
+      }
+      updateOpenStatus();
+      window.setInterval(updateOpenStatus, 60000);
+
+      var mapEl = document.getElementById('store-map');
+      var fallbackEl = document.getElementById('store-map-fallback');
+      function showMapFallback() {
+        if (mapEl) mapEl.hidden = true;
+        if (fallbackEl) fallbackEl.hidden = false;
+      }
+      if (mapEl && window.HatchMaps && window.MapHelpers) {
+        try {
+          window.MapHelpers.mountMap(mapEl, {
+            places: [{
+              label: 'MosterVape',
+              venue: 'MosterVape',
+              address: 'Cl. 29h #21b-88 Mz 0 Casa 364',
+              locality: 'Santa Marta',
+              region: 'Magdalena',
+              country: 'Colombia',
+              lat: 11.224947,
+              lng: -74.1906209,
+              source: 'Google Maps'
+            }],
+            center: { lat: 11.224947, lng: -74.1906209 },
+            zoom: 13.5,
+            baseStyle: 'dark',
+            marker: function () { return '<div class="pin" aria-label="MosterVape">M</div>'; }
+          }, showMapFallback);
+        } catch (error) {
+          showMapFallback();
+        }
+      } else {
+        showMapFallback();
+      }
+
+      var carousel = document.getElementById('local-carousel');
+      var carouselControl = document.getElementById('carousel-control');
+      var carouselPauseIcon = carouselControl && carouselControl.querySelector('.carousel-pause-icon');
+      var carouselPlayIcon = carouselControl && carouselControl.querySelector('.carousel-play-icon');
+      var carouselLabel = carouselControl && carouselControl.querySelector('span');
+      var carouselReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function setCarouselPaused(paused) {
+        if (!carousel || !carouselControl) return;
+        carousel.classList.toggle('is-paused', paused);
+        carouselControl.setAttribute('aria-pressed', String(paused));
+        if (carouselLabel) carouselLabel.textContent = paused ? 'Reanudar giro' : 'Pausar giro';
+        if (carouselPauseIcon) carouselPauseIcon.hidden = paused;
+        if (carouselPlayIcon) carouselPlayIcon.hidden = !paused;
+      }
+      function toggleCarousel() {
+        if (carouselReducedMotion.matches) return;
+        setCarouselPaused(!carousel.classList.contains('is-paused'));
+      }
+      if (carousel && carouselControl) {
+        if (carouselReducedMotion.matches) setCarouselPaused(true);
+        carouselControl.addEventListener('click', function (event) {
+          event.stopPropagation();
+          toggleCarousel();
+        });
+        carousel.addEventListener('pointerup', function (event) {
+          if (event.pointerType === 'touch' && !event.target.closest('.carousel-control')) toggleCarousel();
+        });
+        carousel.addEventListener('keydown', function (event) {
+          if ((event.key === ' ' || event.key === 'Enter') && event.target === carousel) {
+            event.preventDefault();
+            toggleCarousel();
+          }
+        });
+      }
+    }());
+  </script>
+
+  <!-- Carrito de pedido -->
+  <div class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Tu pedido">
+    <div class="cart-backdrop" id="cart-backdrop"></div>
+    <div class="cart-panel">
+      <div class="cart-head">
+        <h3>Tu pedido</h3>
+        <button class="cart-close" type="button" id="cart-close" aria-label="Cerrar pedido">×</button>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-foot">
+        <div class="cart-total"><span>Total estimado</span><b id="cart-total">$ 0</b></div>
+        <a class="cart-order" id="cart-order" href="#" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.2 0 .4-.3.6-.6.8-.4 1.1.7 1.2 1.6 2 2.8 2.6.3.2.5.1.7-.1l.8-.9c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.4 1.6Z"/></svg>
+          Enviar pedido por WhatsApp
+        </a>
+        <p class="cart-note">El pedido se envía como un solo mensaje a MosterVape. La disponibilidad final se confirma con la tienda.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="wa-float" id="wa-float" href="https://api.whatsapp.com/send?phone=573022525401&text=%F0%9F%91%8B%20Hola%2C%20vengo%20de%20MosterVape%20(mostervape.vercel.app).%20Quiero%20hacer%20una%20consulta." target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.2 0 .4-.3.6-.6.8-.4 1.1.7 1.2 1.6 2 2.8 2.6.3.2.5.1.7-.1l.8-.9c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.4 1.6Z"/></svg>
+  </a>
 </body>
 </html>
